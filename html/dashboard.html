@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — EMS Pro</title>
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     TOAST CONTAINER
+═══════════════════════════════════════════════════════ -->
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SIDEBAR OVERLAY (mobile)
+═══════════════════════════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     APP SHELL
+═══════════════════════════════════════════════════════ -->
+<div class="app-shell">
+
+  <!-- ╔══════════════════════════════╗
+       ║         SIDEBAR              ║
+       ╚══════════════════════════════╝ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div>
+        <div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div>
+        <div class="brand-tagline" id="brandTagline">Dashboard</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+
+      <div class="nav-section-label">Main</div>
+
+      <a href="dashboard.html" class="nav-link" data-page="dashboard">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="departments.html" class="nav-link" data-page="departments">
+        <i class="bi bi-diagram-3"></i>
+        <span>Departments</span>
+      </a>
+
+      <a href="employees.html" class="nav-link" data-page="employees">
+        <i class="bi bi-people"></i>
+        <span>Employees</span>
+      </a>
+
+      <a href="attendance.html" class="nav-link" data-page="attendance">
+        <i class="bi bi-calendar-check"></i>
+        <span>Attendance</span>
+      </a>
+
+      <a href="leave.html" class="nav-link" data-page="leave">
+        <span>Leave Management</span>
+      </a>
+
+      <a href="payroll.html" class="nav-link" data-page="payroll">
+        <span>Payroll</span>
+      </a>
+
+      <a href="reports.html" class="nav-link" data-page="reports">
+
+        <span>Reports</span>
+      </a>
+
+      <a href="profile.html" class="nav-link" data-page="profile">
+        <span>Profile</span>
+      </a>
+
+
+
+      <a href="settings.html" class="nav-link" data-page="settings">
+        <span>Settings</span>
+      </a>
+
+    </nav>
+
+    <!-- Sidebar footer logout -->
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+
+  </aside>
+  <!-- END SIDEBAR -->
+
+  <!-- ╔══════════════════════════════╗
+       ║        MAIN CONTENT          ║
+       ╚══════════════════════════════╝ -->
+  <div class="main-content">
+
+    <!-- ── TOP NAVBAR ── -->
+    <header class="topbar" role="banner">
+
+      <div class="topbar-left">
+        <!-- Hamburger (mobile) -->
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Search -->
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input
+            type="search"
+            id="globalSearch"
+            placeholder="Search employees, departments…"
+            aria-label="Global search"
+          />
+        </div>
+      </div>
+
+      <div class="topbar-right">
+
+        <!-- Notifications -->
+        <div class="dropdown">
+          <button
+                  class="topbar-icon-btn"
+                  data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside"
+                  aria-expanded="false"
+                  aria-label="Notifications"
+                  id="notifToggle"
+          >
+            <i class="bi bi-bell"></i>
+            <span class="dot" id="notifBadgeDot"></span>
+          </button>
+
+          <div class="dropdown-menu notif-dropdown p-0" aria-labelledby="notifToggle">
+
+            <div class="notif-header">
+              <h6>
+                Notifications
+                <span id="notifCount"
+                      style="background:#EFF6FF;color:#2563EB;font-size:10px;padding:2px 7px;border-radius:99px;font-weight:600;margin-left:6px;">
+                    0 new
+                </span>
+              </h6>
+
+              <button class="notif-mark-read" id="markAllRead">
+                Mark all read
+              </button>
+            </div>
+
+            <div class="notif-list" id="notificationList">
+            </div>
+
+            <div class="notif-footer">
+              <a href="#">View all notifications</a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- END Notifications -->
+
+        <!-- Settings quick link -->
+        <a href="#"
+           class="topbar-icon-btn"
+           id="topSettings"
+           aria-label="Settings">
+          <i class="bi bi-gear"></i>
+        </a>
+
+        <!-- Profile dropdown -->
+        <div class="dropdown">
+          <div
+            class="topbar-profile"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="Profile menu"
+            tabindex="0"
+          >
+            <div class="avatar" aria-hidden="true">
+              <span data-user-initials></span>
+            </div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;" aria-hidden="true"></i>
+          </div>
+
+          <div class="dropdown-menu profile-dropdown-menu p-0">
+            <div class="profile-dd-header">
+              <div class="avatar-lg" aria-hidden="true">
+                <span data-user-initials></span>
+              </div>
+              <div>
+                <div class="name" data-user-name></div>
+                <div class="email" data-user-email></div>
+                <span class="role-badge" data-user-role></span>
+              </div>
+            </div>
+            <div class="profile-dd-body">
+              <a href="profile.html"   class="profile-dd-item"><i class="bi bi-person"></i> My Profile</a>
+              <a href="#"              class="profile-dd-item"><i class="bi bi-gear"></i> Settings</a>
+              <a href="#"              class="profile-dd-item"><i class="bi bi-question-circle"></i> Help & Support</a>
+            </div>
+            <div class="profile-dd-footer">
+              <a href="#" class="profile-dd-item danger" id="logoutBtn2">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- END Profile dropdown -->
+
+      </div>
+      <!-- END topbar-right -->
+
+    </header>
+    <!-- END TOPBAR -->
+
+    <!-- ── PAGE CONTENT ── -->
+    <main class="page-content" role="main">
+
+
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </nav>
+          <h1 class="page-title"><span id="greetingText">Good morning</span>, <span data-user-name></span> 👋</h1>
+          <p class="page-subtitle">Here's what's happening across your organization today.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-outline-ems" onclick="window.print()">
+            <i class="bi bi-printer"></i> Print Report
+          </button>
+          <a href="employees.html" class="btn-primary-ems" id="btnAddEmployee">
+            <i class="bi bi-person-plus"></i> Add Employee
+          </a>
+        </div>
+      </div>
+
+      <!-- ── WELCOME BANNER ── -->
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h4>Employee Management System</h4>
+
+          <p>
+            Manage employees, departments, attendance, leave and payroll efficiently.
+          </p>
+        </div>
+        <div class="banner-actions">
+          <a href="payroll.html" class="btn-banner-white" id="btnRunPayroll">
+            <i class="bi bi-cash-coin"></i> Run Payroll
+          </a>
+          <a href="leaves.html" class="btn-banner-white" id="btnReviewLeaves">
+            <i class="bi bi-calendar-x"></i> Review Leaves
+          </a>
+        </div>
+        <span class="banner-illustration" aria-hidden="true">🏢</span>
+      </div>
+
+      <!-- ── QUICK ACTIONS ── -->
+      <div class="quick-actions">
+        <a href="employees.html" class="quick-action-btn" id="qaAddEmployee"><i class="bi bi-person-plus"></i> Add Employee</a>
+        <a href="departments.html" class="quick-action-btn" id="qaDepartment"><i class="bi bi-diagram-3"></i> New Department</a>
+        <a href="attendance.html" class="quick-action-btn" id="qaAttendance"><i class="bi bi-calendar-check"></i> Mark Attendance</a>
+        <a href="leaves.html" class="quick-action-btn" id="qaLeaves"><i class="bi bi-clock-history"></i> Leave Management</a>
+        <a href="payroll.html" class="quick-action-btn" id="qaPayroll"><i class="bi bi-receipt"></i> Generate Payslip</a>
+      </div>
+
+      <!-- ── STAT CARDS ── -->
+      <div class="stats-row">
+
+        <!-- Total Employees -->
+        <div class="stat-card">
+          <div class="stat-card-icon icon-blue">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" id="totalUsers">0</div>
+            <div class="stat-card-label">Total Employees</div>
+
+          </div>
+          <div style="margin-left:auto;text-align:right;">
+
+          </div>
+        </div>
+
+        <!-- Departments -->
+        <div class="stat-card" id="cardDepartments">
+          <div class="stat-card-icon icon-purple">
+            <i class="bi bi-diagram-3-fill"></i>
+          </div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" id="totalDepartments">0</div>
+            <div class="stat-card-label">Departments</div>
+          </div>
+          <div style="margin-left:auto;text-align:right;">
+
+          </div>
+        </div>
+
+        <!-- Present Today -->
+        <div class="stat-card" id="cardAttendance">
+          <div class="stat-card-icon icon-green">
+            <i class="bi bi-patch-check-fill"></i>
+          </div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" id="activeUsers">0</div>
+            <div class="stat-card-label">Present Today</div>
+
+          </div>
+          <div style="margin-left:auto;text-align:right;">
+
+          </div>
+        </div>
+
+        <!-- Pending Leaves -->
+        <div class="stat-card" id="cardLeaves">
+          <div class="stat-card-icon icon-orange">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+          <div class="stat-card-body">
+            <div class="stat-card-value" id="pendingLeaves">0</div>
+            <div class="stat-card-label">Pending Leave Requests</div>
+          </div>
+          <div style="margin-left:auto;text-align:right;">
+          </div>
+        </div>
+
+      </div>
+      <!-- END STAT CARDS -->
+
+      <!-- ── CHARTS + CALENDAR ROW ── -->
+      <div class="dashboard-grid">
+
+        <!-- Headcount Trend (Bar Chart) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="title-group">
+              <p class="chart-title">Headcount Trend</p>
+              <p class="chart-sub">New hires vs. departures this year</p>
+            </div>
+            <div class="period-tabs">
+              <button class="active">6M</button>
+              <button>1Y</button>
+              <button>2Y</button>
+            </div>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot" style="background:#2563EB;"></span>New Hires</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span>Departures</span>
+            </div>
+            <div style="height:210px; position:relative;">
+              <canvas id="headcountChart"></canvas>
+            </div>
+            <div class="chart-totals">
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="totalHires" style="color:#2563EB;">0</div>
+                <div class="chart-total-label">Total Hires (YTD)</div>
+              </div>
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="totalDepartures" style="color:#EF4444;">0</div>
+                <div class="chart-total-label">Departures (YTD)</div>
+              </div>
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="netGrowth" style="color:#10B981;">0</div>
+                <div class="chart-total-label">Net Growth</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendance Overview (Line Chart) -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="title-group">
+              <p class="chart-title">Attendance Overview</p>
+              <p class="chart-sub">This week's daily breakdown</p>
+            </div>
+            <div class="period-tabs">
+              <button class="active">Week</button>
+              <button>Month</button>
+            </div>
+          </div>
+          <div class="chart-card-body">
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot" style="background:#10B981;"></span>Present</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span>Absent</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#8B5CF6;"></span>On Leave</span>
+            </div>
+            <div style="height:210px; position:relative;">
+              <canvas id="attendanceChart"></canvas>
+            </div>
+            <div class="chart-totals">
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="avgAttendance">0%</div>
+                <div class="chart-total-label">Avg Attendance</div>
+              </div>
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="absentRate">0%</div>
+                <div class="chart-total-label">Absent Rate</div>
+              </div>
+              <div class="chart-total-item">
+                <div class="chart-total-value" id="leaveRate">0%</div>
+                <div class="chart-total-label">On Leave</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar Widget (right column) -->
+        <div class="calendar-col">
+
+
+          <!-- Mini Calendar card -->
+          <div class="chart-card calendar-widget" style="margin-bottom:16px;">
+            <div class="cal-header">
+              <button class="cal-nav-btn" id="calPrev" aria-label="Previous month">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+              <span class="cal-month-label" id="calMonthLabel"></span>
+              <button class="cal-nav-btn" id="calNext" aria-label="Next month">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+            <div class="cal-body">
+              <div class="cal-weekdays">
+                <span>Su</span><span>Mo</span><span>Tu</span>
+                <span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+
+              <div class="calendar-events" id="calendarEvents">
+
+              </div>
+              <div class="cal-days" id="calDays"></div>
+            </div>
+          </div>
+
+          <!-- Upcoming events -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="title-group">
+                <p class="chart-title">Upcoming Events</p>
+              </div>
+              <a href="#" style="font-size:11px;color:var(--primary);">View all</a>
+            </div>
+            <div class="cal-events-list"
+                 id="upcomingEvents"
+                 style="padding:0 20px 16px;">
+
+            </div>
+            </div>
+
+
+        </div>
+        <!-- END Calendar column -->
+
+      </div>
+      <!-- END CHARTS ROW -->
+
+      <!-- ── BOTTOM ROW: Recent Employees + Activity ── -->
+      <div class="bottom-row">
+
+        <!-- Recent Employees Table -->
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <div class="title-group">
+              <p class="chart-title">Recent Employees</p>
+              <p class="chart-sub">Latest onboarded team members</p>
+            </div>
+            <a href="employees.html" class="btn-outline-ems" style="padding:6px 12px;font-size:12px;">
+              View All <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+          <div class="table-wrapper">
+            <table class="ems-table" id="recentEmpTable" aria-label="Recent employees">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Position</th>
+                  <th>Join Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recentEmpTableBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── RIGHT COLUMN: Activity + Dept Breakdown ── -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Department Breakdown -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="title-group">
+                <p class="chart-title">By Department</p>
+                <p class="chart-sub">Headcount distribution</p>
+              </div>
+              <a href="departments.html" style="font-size:11px;color:var(--primary);">
+                Details
+              </a>
+            </div>
+
+            <div style="padding:8px 20px 16px;">
+
+              <!-- Donut -->
+              <div style="height:130px;position:relative;margin-bottom:8px;">
+                <canvas id="deptDonutChart"></canvas>
+              </div>
+
+              <div class="donut-summary" id="departmentSummary"></div>
+
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="title-group">
+                <p class="chart-title">Recent Activity</p>
+              </div>
+
+              <a href="#" style="font-size:11px;color:var(--primary);">
+                See all
+              </a>
+            </div>
+
+            <div style="padding:4px 20px 12px;">
+              <div class="activity-feed" id="activityFeed"></div>
+            </div>
+          </div>
+
+        </div>
+        <!-- END RIGHT COLUMN -->
+
+      </div>
+      <!-- END BOTTOM ROW -->
+
+    </main>
+    <!-- END PAGE CONTENT -->
+
+  </div>
+  <!-- END MAIN CONTENT -->
+
+</div>
+
+
+
+<!-- END APP SHELL -->
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<!-- Dashboard JS -->
+<script src="../js/common.js"></script>
+<script src="../js/role.js"></script>
+<script src="../js/admin-dashboard.js"></script>
+<!--<script src="../js/dashboard.js"></script>-->
+
+<!-- Wire up secondary logout button -->
+
+</body>
+</html>

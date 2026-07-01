@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employees — EMS Pro</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <link rel="stylesheet" href="../css/employees.css" />
+</head>
+<body>
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="app-shell">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand"><div class="brand-icon"><i class="bi bi-buildings-fill"></i></div><div><div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div><div class="brand-tagline">Admin Panel</div></div></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="../html/dashboard.html"   class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+      <a href="../html/departments.html" class="nav-link" data-page="departments"><i class="bi bi-diagram-3"></i><span>Departments</span></a>
+      <a href="../html/employees.html"   class="nav-link" data-page="employees"><i class="bi bi-people"></i><span>Employees</span></a>
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html"  class="nav-link" data-page="attendance"><i class="bi bi-calendar-check"></i><span>Attendance</span></a>
+      <a href="leaves.html"      class="nav-link" data-page="leaves"><i class="bi bi-calendar-x"></i><span>Leave Management</span><span class="badge-pill">5</span></a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll"><i class="bi bi-cash-coin"></i><span>Payroll</span></a>
+      <a href="reports.html"     class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"     class="nav-link" data-page="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+      <a href="settings.html"    class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer"><a href="#" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a></div>
+  </aside>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="search" id="globalSearch" placeholder="Search employees…" /></div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown" id="notifToggle"><i class="bi bi-bell"></i><span class="dot" id="notifBadgeDot"></span></button>
+          <div class="dropdown-menu p-0" style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);"><div style="padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span><button id="markAllRead" style="background:none;border:none;font-size:11.5px;color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">Mark all read</button></div><div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">4 unread notifications</div><div style="padding:10px;border-top:1px solid var(--border);text-align:center;"><a href="#" style="font-size:12px;color:var(--primary);">View all</a></div></div>
+        </div>
+        <a href="settings.html" class="topbar-icon-btn"><i class="bi bi-gear"></i></a>
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown" tabindex="0">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+          </div>
+          <div class="dropdown-menu p-0" style="width:220px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:12px 14px;">
+              <div style="font-size:13px;font-weight:600;color:var(--dark);" data-user-name></div>
+              <div style="font-size:11px;color:var(--text-muted);" data-user-email></div>
+            </div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-person"></i> My Profile</a>
+              <a href="settings.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-gear"></i> Settings</a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);">
+              <a href="#" id="logoutBtn2" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--danger);text-decoration:none;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </header>
+
+    <main class="page-content">
+      <div class="page-header">
+        <div>
+          <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="dashboard.html">Home</a></li><li class="breadcrumb-item active">Employees</li></ol></nav>
+          <h1 class="page-title">Employee Management</h1>
+          <p class="page-subtitle">Manage your full workforce directory</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn-outline-ems" id="btnExportEmps"><i class="bi bi-download"></i> Export</button>
+          <button class="btn-primary-ems" id="btnOpenAddEmp"><i class="bi bi-person-plus"></i> Add Employee</button>
+        </div>
+      </div>
+
+      <!-- Summary cards -->
+      <div class="summary-cards">
+        <div class="summary-card"><div class="sc-icon icon-blue"><i class="bi bi-people-fill"></i></div><div class="sc-body"><div class="sc-value" data-count="242">0</div><div class="sc-label">Total Employees</div><div class="sc-trend up"><i class="bi bi-arrow-up-short"></i>+12 this month</div></div></div>
+        <div class="summary-card"><div class="sc-icon icon-green"><i class="bi bi-person-check-fill"></i></div><div class="sc-body"><div class="sc-value" data-count="218">0</div><div class="sc-label">Active</div><div class="sc-trend up"><i class="bi bi-arrow-up-short"></i>90.1% rate</div></div></div>
+        <div class="summary-card"><div class="sc-icon icon-orange"><i class="bi bi-hourglass-split"></i></div><div class="sc-body"><div class="sc-value" data-count="14">0</div><div class="sc-label">On Leave</div><div class="sc-trend neutral">5.8% of workforce</div></div></div>
+        <div class="summary-card"><div class="sc-icon icon-red"><i class="bi bi-person-x-fill"></i></div><div class="sc-body"><div class="sc-value" data-count="10">0</div><div class="sc-label">Inactive</div><div class="sc-trend down"><i class="bi bi-arrow-down-short"></i>4.1% rate</div></div></div>
+      </div>
+
+      <!-- Table card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="page-toolbar">
+            <div class="search-box"><i class="bi bi-search"></i><input type="search" id="empSearch" placeholder="Search by name, ID, role…" /></div>
+            <select id="empDeptFilter"><option value="">All Departments</option><option>Engineering</option><option>Marketing</option><option>Sales</option><option>Human Resources</option><option>Finance</option><option>Operations</option><option>Customer Support</option><option>Product</option><option>Design</option></select>
+            <select id="empStatusFilter"><option value="">All Status</option><option value="Active">Active</option><option value="On Leave">On Leave</option><option value="Inactive">Inactive</option></select>
+            <select id="empSortSelect"><option value="name-asc">Name A→Z</option><option value="name-desc">Name Z→A</option><option value="date-desc">Newest First</option><option value="date-asc">Oldest First</option><option value="sal-desc">Salary High→Low</option></select>
+          </div>
+        </div>
+        <div class="table-stats-bar">
+          <div class="stats-bar-item"><i class="bi bi-table" style="color:var(--primary);"></i><strong id="empStatShowing">0</strong><span>employees shown</span></div>
+          <div class="stats-bar-item"><i class="bi bi-check-circle" style="color:var(--success);"></i><strong id="empStatActive">0</strong><span>active</span></div>
+          <div class="stats-bar-item"><i class="bi bi-hourglass" style="color:var(--warning);"></i><strong id="empStatLeave">0</strong><span>on leave</span></div>
+        </div>
+        <div class="table-wrapper">
+          <table class="ems-table" id="empTable">
+            <thead><tr><th>Employee</th><th>Department</th><th>Position</th><th>Contact</th><th>Join Date</th><th>Salary</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="empTbody">
+              <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+              <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+              <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tbl-footer">
+          <div class="tbl-footer-info">Showing <strong id="empPageInfo">1–10</strong> of <strong id="empTotalInfo">0</strong> employees</div>
+          <div class="pagination-ems" id="empPagination"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ADD EMPLOYEE MODAL -->
+<div class="modal fade modal-ems" id="addEmpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-person-plus" style="color:var(--primary);margin-right:7px;"></i>Add New Employee</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <form id="addEmpForm" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label-ems">First Name *</label><input type="text" class="form-control-ems" id="ae_fname" placeholder="First name" required /><div class="invalid-feedback" id="ae_fname_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Last Name *</label><input type="text" class="form-control-ems" id="ae_lname" placeholder="Last name" required /><div class="invalid-feedback" id="ae_lname_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Email *</label><input type="email" class="form-control-ems" id="ae_email" placeholder="email@company.com" required /><div class="invalid-feedback" id="ae_email_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Phone</label><input type="tel" class="form-control-ems" id="ae_phone" placeholder="+1 (555) 000-0000" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Department *</label><select class="form-control-ems" id="ae_dept" required><option value="">Select department</option><option>Engineering</option><option>Marketing</option><option>Sales</option><option>Human Resources</option><option>Finance</option><option>Operations</option><option>Customer Support</option><option>Product</option><option>Design</option><option>Legal</option></select><div class="invalid-feedback" id="ae_dept_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Job Title *</label><input type="text" class="form-control-ems" id="ae_title" placeholder="e.g. Senior Developer" required /><div class="invalid-feedback" id="ae_title_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Join Date</label><input type="date" class="form-control-ems" id="ae_joindate" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Salary (USD/yr)</label><input type="number" class="form-control-ems" id="ae_salary" placeholder="e.g. 85000" min="0" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Employment Type</label><select class="form-control-ems" id="ae_type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Intern</option></select></div>
+            <div class="col-md-6"><label class="form-label-ems">Status</label><select class="form-control-ems" id="ae_status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+            <div class="col-12"><label class="form-label-ems">Address</label><input type="text" class="form-control-ems" id="ae_address" placeholder="Full address" /></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline-ems" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-ems" id="btnSaveAddEmp"><i class="bi bi-check-lg"></i> Save Employee</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT EMPLOYEE MODAL -->
+<div class="modal fade modal-ems" id="editEmpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-pencil-square" style="color:var(--primary);margin-right:7px;"></i>Edit Employee</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <form id="editEmpForm" novalidate>
+          <input type="hidden" id="ee_id" />
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label-ems">First Name *</label><input type="text" class="form-control-ems" id="ee_fname" required /><div class="invalid-feedback" id="ee_fname_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Last Name *</label><input type="text" class="form-control-ems" id="ee_lname" required /><div class="invalid-feedback" id="ee_lname_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Email *</label><input type="email" class="form-control-ems" id="ee_email" required /><div class="invalid-feedback" id="ee_email_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Phone</label><input type="tel" class="form-control-ems" id="ee_phone" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Department *</label><select class="form-control-ems" id="ee_dept" required><option value="">Select</option><option>Engineering</option><option>Marketing</option><option>Sales</option><option>Human Resources</option><option>Finance</option><option>Operations</option><option>Customer Support</option><option>Product</option><option>Design</option><option>Legal</option></select><div class="invalid-feedback" id="ee_dept_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Job Title *</label><input type="text" class="form-control-ems" id="ee_title" required /><div class="invalid-feedback" id="ee_title_err"></div></div>
+            <div class="col-md-6"><label class="form-label-ems">Join Date</label><input type="date" class="form-control-ems" id="ee_joindate" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Salary (USD/yr)</label><input type="number" class="form-control-ems" id="ee_salary" min="0" /></div>
+            <div class="col-md-6"><label class="form-label-ems">Employment Type</label><select class="form-control-ems" id="ee_type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Intern</option></select></div>
+            <div class="col-md-6"><label class="form-label-ems">Status</label><select class="form-control-ems" id="ee_status"><option value="Active">Active</option><option value="On Leave">On Leave</option><option value="Inactive">Inactive</option></select></div>
+            <div class="col-12"><label class="form-label-ems">Address</label><input type="text" class="form-control-ems" id="ee_address" /></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline-ems" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-ems" id="btnSaveEditEmp"><i class="bi bi-check-lg"></i> Update Employee</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW EMPLOYEE PROFILE MODAL -->
+<div class="modal fade modal-ems" id="viewEmpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content" style="overflow:hidden;">
+      <div class="emp-profile-banner">
+        <button type="button" class="btn-close btn-close-white" style="position:absolute;top:16px;right:16px;" data-bs-dismiss="modal"></button>
+        <div style="display:flex;align-items:center;gap:16px;position:relative;z-index:1;">
+          <div class="profile-avatar-lg" id="viewEmpAvatar"></div>
+          <div>
+            <h4 id="viewEmpName" style="font-size:20px;font-weight:700;margin-bottom:3px;"></h4>
+            <p id="viewEmpTitle" style="font-size:13px;opacity:.85;margin-bottom:6px;"></p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;" id="viewEmpTags"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" style="padding:20px 24px;">
+        <div class="row g-3">
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Employee ID</span><span class="val" id="viewEmpId"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Department</span><span class="val" id="viewEmpDept"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Email</span><span class="val" id="viewEmpEmail"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Phone</span><span class="val" id="viewEmpPhone"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Join Date</span><span class="val" id="viewEmpJoin"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Annual Salary</span><span class="val" id="viewEmpSalary"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Employment Type</span><span class="val" id="viewEmpType"></span></div></div>
+          <div class="col-md-6"><div class="info-pair"><span class="lbl">Status</span><span id="viewEmpStatus"></span></div></div>
+          <div class="col-12"><div class="info-pair"><span class="lbl">Address</span><span class="val" id="viewEmpAddr" style="font-weight:400;color:var(--secondary);"></span></div></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline-ems" data-bs-dismiss="modal">Close</button>
+        <button class="btn-primary-ems" id="btnEditFromEmpView"><i class="bi bi-pencil"></i> Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE EMPLOYEE MODAL -->
+<div class="modal fade modal-ems" id="deleteEmpModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-body" style="padding:28px 24px;">
+        <div class="delete-confirm-wrap"><div class="del-icon"><i class="bi bi-person-x-fill"></i></div><h5>Remove Employee?</h5><p>Are you sure you want to remove <strong id="deleteEmpName"></strong>? This action cannot be undone.</p></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-outline-ems" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn-primary-ems" id="btnConfirmDeleteEmp" style="background:var(--danger);"><i class="bi bi-trash3"></i> Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script src="../js/employees.js"></script>
+<script src="../js/common.js"></script>
+</body>
+</html>

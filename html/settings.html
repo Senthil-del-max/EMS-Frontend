@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings — EMS Pro</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <link rel="stylesheet" href="../css/settings.css" />
+</head>
+<body>
+
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" role="navigation">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div><div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div><div class="brand-tagline">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+      <a href="departments.html" class="nav-link" data-page="departments"><i class="bi bi-diagram-3"></i><span>Departments</span></a>
+      <a href="employees.html"   class="nav-link" data-page="employees"><i class="bi bi-people"></i><span>Employees</span></a>
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html"  class="nav-link" data-page="attendance"><i class="bi bi-calendar-check"></i><span>Attendance</span></a>
+      <a href="leaves.html"      class="nav-link" data-page="leaves"><i class="bi bi-calendar-x"></i><span>Leave Management</span><span class="badge-pill">5</span></a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll"><i class="bi bi-cash-coin"></i><span>Payroll</span></a>
+      <a href="reports.html"     class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"  class="nav-link" data-page="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+      <a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="search" id="globalSearch" placeholder="Search settings…" aria-label="Search" />
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="Notifications">
+            <i class="bi bi-bell"></i><span class="dot" id="notifBadgeDot"></span>
+          </button>
+          <div class="dropdown-menu p-0" style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);">
+            <div style="padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span>
+              <button id="markAllRead" style="background:none;border:none;font-size:11.5px;color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">Mark all read</button>
+            </div>
+            <div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">4 unread notifications</div>
+            <div style="padding:10px;border-top:1px solid var(--border);text-align:center;"><a href="#" style="font-size:12px;color:var(--primary);">View all</a></div>
+          </div>
+        </div>
+        <a href="settings.html" class="topbar-icon-btn" aria-label="Settings"><i class="bi bi-gear"></i></a>
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown" tabindex="0" role="button">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+          </div>
+          <div class="dropdown-menu p-0" style="width:220px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:13px 16px;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;font-weight:600;color:var(--dark);" data-user-name></div>
+              <div style="font-size:11px;color:var(--text-muted);" data-user-email></div>
+            </div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html"  style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-person"></i> My Profile</a>
+              <a href="settings.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-gear"></i> Settings</a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);">
+              <a href="#" id="logoutBtn2" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--danger);text-decoration:none;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content" role="main">
+
+      <nav aria-label="breadcrumb" style="margin-bottom:20px;">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+          <li class="breadcrumb-item active">Settings</li>
+        </ol>
+      </nav>
+
+      <!-- BANNER -->
+      <div class="settings-banner">
+        <div class="sb-icon"><i class="bi bi-gear-wide-connected"></i></div>
+        <div class="sb-text">
+          <h1>System Settings</h1>
+          <p>Manage your theme, notifications, security and account preferences.</p>
+        </div>
+      </div>
+
+      <!-- LAYOUT: side nav + panels -->
+      <div class="settings-layout">
+
+        <!-- SIDE NAV -->
+        <div class="settings-nav">
+          <button class="settings-nav-btn active" data-panel="panelTheme">
+            <i class="bi bi-palette"></i> Theme &amp; Display
+          </button>
+          <button class="settings-nav-btn" data-panel="panelNotifications">
+            <i class="bi bi-bell"></i> Notifications
+          </button>
+          <button class="settings-nav-btn" data-panel="panelSecurity">
+            <i class="bi bi-shield-lock"></i> Security
+          </button>
+          <button class="settings-nav-btn" data-panel="panelPreferences">
+            <i class="bi bi-sliders"></i> Preferences
+          </button>
+        </div>
+
+        <!-- PANELS -->
+        <div>
+
+          <!-- ═══ PANEL: Theme & Display ═══ -->
+          <div class="settings-panel active" id="panelTheme">
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-palette-fill" style="color:#1E293B;"></i> Accent Color</h3>
+                <p>Choose the primary color used across buttons, links and highlights</p>
+              </div>
+              <div class="sc-body">
+                <div class="theme-swatch-row">
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch selected" data-color="blue" style="background:#2563EB;"></div>
+                    <div class="theme-swatch-label">Blue</div>
+                  </div>
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch" data-color="violet" style="background:#7C3AED;"></div>
+                    <div class="theme-swatch-label">Violet</div>
+                  </div>
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch" data-color="green" style="background:#059669;"></div>
+                    <div class="theme-swatch-label">Green</div>
+                  </div>
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch" data-color="rose" style="background:#E11D48;"></div>
+                    <div class="theme-swatch-label">Rose</div>
+                  </div>
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch" data-color="amber" style="background:#D97706;"></div>
+                    <div class="theme-swatch-label">Amber</div>
+                  </div>
+                  <div class="theme-swatch-wrap">
+                    <div class="theme-swatch" data-color="slate" style="background:#475569;"></div>
+                    <div class="theme-swatch-label">Slate</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-layout-text-window" style="color:#1E293B;"></i> Layout Density</h3>
+                <p>Control how compact the interface feels</p>
+              </div>
+              <div class="sc-body">
+                <div class="density-options">
+                  <div class="density-card selected" data-density="comfortable">
+                    <div class="d-icon"><i class="bi bi-distribute-vertical"></i></div>
+                    <div class="d-label">Comfortable</div>
+                    <div class="d-sub">More spacing, easier to read</div>
+                  </div>
+                  <div class="density-card" data-density="compact">
+                    <div class="d-icon"><i class="bi bi-list-task"></i></div>
+                    <div class="d-label">Compact</div>
+                    <div class="d-sub">Tighter spacing, more content</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-moon-stars-fill" style="color:#1E293B;"></i> Display Mode</h3>
+              </div>
+              <div class="sc-body">
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#F1F5F9;color:#475569;"><i class="bi bi-moon-stars"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Dark Mode</div>
+                    <div class="desc">Switch to a darker color scheme across the app (preview only in this demo)</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="toggleDarkMode" />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="settings-save-bar">
+                <button class="btn-outline-ems btn-reset-settings">Reset</button>
+                <button class="btn-dark-ems btn-save-settings"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ═══ PANEL: Notifications ═══ -->
+          <div class="settings-panel" id="panelNotifications">
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-envelope-fill" style="color:#1E293B;"></i> Email Notifications</h3>
+                <p>Choose which updates are sent to your email</p>
+              </div>
+              <div class="sc-body">
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-calendar-x"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Leave Requests</div>
+                    <div class="desc">Get notified when employees submit or update leave requests</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleEmailLeave" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-cash-coin"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Payroll Updates</div>
+                    <div class="desc">Receive alerts when payroll is processed or payslips are generated</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleEmailPayroll" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#EFF6FF;color:#2563EB;"><i class="bi bi-calendar-check"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Attendance Reports</div>
+                    <div class="desc">Daily attendance summary emails</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleEmailAttendance" /><span class="toggle-slider"></span></label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-phone-vibrate" style="color:#1E293B;"></i> App Notifications</h3>
+                <p>Control in-app and push notification behavior</p>
+              </div>
+              <div class="sc-body">
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="bi bi-bell-fill"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Push Notifications</div>
+                    <div class="desc">Show real-time notifications in the bell icon</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="togglePushNotif" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#ECFEFF;color:#0891B2;"><i class="bi bi-file-earmark-text"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Weekly Digest</div>
+                    <div class="desc">A weekly summary of HR activity sent every Monday</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleWeeklyDigest" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#FEF2F2;color:#DC2626;"><i class="bi bi-volume-up-fill"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Sound Alerts</div>
+                    <div class="desc">Play a sound when a new notification arrives</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleSoundAlerts" /><span class="toggle-slider"></span></label>
+                </div>
+
+              </div>
+              <div class="settings-save-bar">
+                <button class="btn-outline-ems btn-reset-settings">Reset</button>
+                <button class="btn-dark-ems btn-save-settings"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ═══ PANEL: Security ═══ -->
+          <div class="settings-panel" id="panelSecurity">
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-shield-lock-fill" style="color:#1E293B;"></i> Account Security</h3>
+                <p>Protect your account with extra security layers</p>
+              </div>
+              <div class="sc-body">
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-shield-check"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Two-Factor Authentication</div>
+                    <div class="desc">Require a verification code in addition to your password</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleTwoFactor" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-exclamation-triangle"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">New Login Alerts</div>
+                    <div class="desc">Email me when my account is accessed from a new device</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" id="toggleLoginAlerts" /><span class="toggle-slider"></span></label>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#EFF6FF;color:#2563EB;"><i class="bi bi-hourglass-split"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Session Timeout</div>
+                    <div class="desc">Automatically sign out after a period of inactivity</div>
+                  </div>
+                  <select class="settings-select" id="sessionTimeoutSelect">
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="240">4 hours</option>
+                    <option value="never">Never</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="settings-save-bar">
+                <button class="btn-outline-ems btn-reset-settings">Reset</button>
+                <button class="btn-dark-ems btn-save-settings"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-display" style="color:#1E293B;"></i> Active Sessions</h3>
+                <p>Devices currently signed in to your account</p>
+              </div>
+              <div class="sc-body">
+
+                <div class="session-item">
+                  <div class="session-icon"><i class="bi bi-laptop"></i></div>
+                  <div class="session-info">
+                    <div class="dev">Chrome on Windows <span class="session-current-chip">This device</span></div>
+                    <div class="meta">Active now &middot; San Francisco, CA</div>
+                  </div>
+                </div>
+
+                <div class="session-item">
+                  <div class="session-icon"><i class="bi bi-phone"></i></div>
+                  <div class="session-info">
+                    <div class="dev">Safari on iPhone</div>
+                    <div class="meta">Last active 2 hours ago &middot; San Francisco, CA</div>
+                  </div>
+                  <button class="btn-icon danger" title="Sign out this device" onclick="EMS.toast('Device signed out.', 'success')">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+
+                <div class="session-item">
+                  <div class="session-icon"><i class="bi bi-tablet"></i></div>
+                  <div class="session-info">
+                    <div class="dev">Edge on iPad</div>
+                    <div class="meta">Last active 3 days ago &middot; Austin, TX</div>
+                  </div>
+                  <button class="btn-icon danger" title="Sign out this device" onclick="EMS.toast('Device signed out.', 'success')">
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+
+              </div>
+              <div class="settings-save-bar">
+                <button class="btn-outline-ems" id="btnSignOutAll" style="border-color:#DC2626;color:#DC2626;">
+                  <i class="bi bi-box-arrow-right"></i> Sign Out All Other Sessions
+                </button>
+              </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-card danger-zone">
+              <div class="sc-head">
+                <h3><i class="bi bi-exclamation-octagon-fill"></i> Danger Zone</h3>
+                <p style="color:#B91C1C;">Irreversible and destructive actions</p>
+              </div>
+              <div class="sc-body">
+                <div class="danger-row">
+                  <div>
+                    <div class="title">Delete Account</div>
+                    <div class="desc">Permanently delete your account and all associated data. This cannot be undone.</div>
+                  </div>
+                  <button class="btn-danger-outline" id="btnDeleteAccount">
+                    <i class="bi bi-trash3"></i> Delete Account
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ═══ PANEL: Preferences ═══ -->
+          <div class="settings-panel" id="panelPreferences">
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-globe2" style="color:#1E293B;"></i> Regional Preferences</h3>
+                <p>Language, timezone and date formatting</p>
+              </div>
+              <div class="sc-body">
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#EFF6FF;color:#2563EB;"><i class="bi bi-translate"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Language</div>
+                    <div class="desc">Display language for the entire application</div>
+                  </div>
+                  <select class="settings-select" id="languageSelect">
+                    <option value="en">English (US)</option>
+                    <option value="en-gb">English (UK)</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="hi">हिन्दी</option>
+                  </select>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-clock-history"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Timezone</div>
+                    <div class="desc">Used for attendance, leave dates and reports</div>
+                  </div>
+                  <select class="settings-select" id="timezoneSelect">
+                    <option value="UTC-08:00">Pacific Time (UTC-08:00)</option>
+                    <option value="UTC-05:00">Eastern Time (UTC-05:00)</option>
+                    <option value="UTC+00:00">UTC (UTC+00:00)</option>
+                    <option value="UTC+01:00">Central Europe (UTC+01:00)</option>
+                    <option value="UTC+05:30">India Standard (UTC+05:30)</option>
+                  </select>
+                </div>
+
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-calendar3"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Date Format</div>
+                    <div class="desc">How dates are displayed throughout the app</div>
+                  </div>
+                  <select class="settings-select" id="dateFormatSelect">
+                    <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="sc-head">
+                <h3><i class="bi bi-house-door-fill" style="color:#1E293B;"></i> Default Start Page</h3>
+                <p>Choose which page opens first after signing in</p>
+              </div>
+              <div class="sc-body">
+                <div class="setting-row">
+                  <div class="setting-row-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="bi bi-house"></i></div>
+                  <div class="setting-row-text">
+                    <div class="title">Start Page</div>
+                    <div class="desc">The first page shown after login</div>
+                  </div>
+                  <select class="settings-select" id="startPageSelect">
+                    <option value="dashboard">Dashboard</option>
+                    <option value="employees">Employees</option>
+                    <option value="attendance">Attendance</option>
+                    <option value="leaves">Leave Management</option>
+                    <option value="reports">Reports</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-save-bar">
+                <button class="btn-outline-ems btn-reset-settings">Reset</button>
+                <button class="btn-dark-ems btn-save-settings"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- END PANELS -->
+
+      </div>
+      <!-- END SETTINGS LAYOUT -->
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/settings.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/role.js"></script>
+</body>
+</html>

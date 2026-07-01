@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave Management — EMS Pro</title>
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <link rel="stylesheet" href="../css/leaves.css" />
+</head>
+<body>
+
+<!-- ── Toast container ── -->
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+
+<!-- ── Sidebar overlay (mobile) ── -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div>
+        <div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div>
+        <div class="brand-tagline">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-link" data-page="dashboard">
+        <i class="bi bi-speedometer2"></i><span>Dashboard</span>
+      </a>
+      <a href="departments.html" class="nav-link" data-page="departments">
+        <i class="bi bi-diagram-3"></i><span>Departments</span>
+      </a>
+      <a href="employees.html"   class="nav-link" data-page="employees">
+        <i class="bi bi-people"></i><span>Employees</span>
+      </a>
+
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html" class="nav-link" data-page="attendance">
+        <i class="bi bi-calendar-check"></i><span>Attendance</span>
+      </a>
+      <a href="leaves.html"      class="nav-link" data-page="leaves">
+        <i class="bi bi-calendar-x"></i><span>Leave Management</span>
+        <span class="badge-pill">5</span>
+      </a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll">
+        <i class="bi bi-cash-coin"></i><span>Payroll</span>
+      </a>
+      <a href="reports.html"     class="nav-link" data-page="reports">
+        <i class="bi bi-bar-chart-line"></i><span>Reports</span>
+      </a>
+
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"  class="nav-link" data-page="profile">
+        <i class="bi bi-person-circle"></i><span>Profile</span>
+      </a>
+      <a href="settings.html" class="nav-link" data-page="settings">
+        <i class="bi bi-gear"></i><span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn">
+        <i class="bi bi-box-arrow-left"></i><span>Logout</span>
+      </a>
+    </div>
+  </aside>
+  <!-- END SIDEBAR -->
+
+
+  <!-- ══════════════ MAIN CONTENT ══════════════ -->
+  <div class="main-content">
+
+    <!-- ── TOPBAR ── -->
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+          <i class="bi bi-list"></i>
+        </button>
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="search" id="globalSearch" placeholder="Search leave requests…"
+                 aria-label="Global search" />
+        </div>
+      </div>
+
+      <div class="topbar-right">
+
+        <!-- Notifications -->
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside" id="notifToggle" aria-label="Notifications">
+            <i class="bi bi-bell"></i>
+            <span class="dot" id="notifBadgeDot"></span>
+          </button>
+          <div class="dropdown-menu p-0"
+               style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);">
+            <div style="padding:13px 18px;border-bottom:1px solid var(--border);
+                        display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span>
+              <button id="markAllRead"
+                style="background:none;border:none;font-size:11.5px;
+                       color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">
+                Mark all read
+              </button>
+            </div>
+            <div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">
+              4 unread notifications
+            </div>
+            <div style="padding:10px;border-top:1px solid var(--border);text-align:center;">
+              <a href="#" style="font-size:12px;color:var(--primary);">View all</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings -->
+        <a href="settings.html" class="topbar-icon-btn" aria-label="Settings">
+          <i class="bi bi-gear"></i>
+        </a>
+
+        <!-- Profile dropdown -->
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown"
+               aria-expanded="false" tabindex="0" role="button">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down"
+               style="font-size:11px;color:var(--text-muted);margin-left:2px;"
+               aria-hidden="true"></i>
+          </div>
+          <div class="dropdown-menu p-0"
+               style="width:220px;border-radius:var(--radius-lg);
+                      box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:13px 16px;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;font-weight:600;color:var(--dark);"
+                   data-user-name></div>
+              <div style="font-size:11px;color:var(--text-muted);" data-user-email></div>
+            </div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html"
+                 style="display:flex;align-items:center;gap:9px;padding:9px 10px;
+                        border-radius:6px;font-size:12.5px;color:var(--secondary);
+                        text-decoration:none;transition:background .15s;"
+                 onmouseover="this.style.background='var(--light)'"
+                 onmouseout="this.style.background=''">
+                <i class="bi bi-person"></i> My Profile
+              </a>
+              <a href="settings.html"
+                 style="display:flex;align-items:center;gap:9px;padding:9px 10px;
+                        border-radius:6px;font-size:12.5px;color:var(--secondary);
+                        text-decoration:none;transition:background .15s;"
+                 onmouseover="this.style.background='var(--light)'"
+                 onmouseout="this.style.background=''">
+                <i class="bi bi-gear"></i> Settings
+              </a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);">
+              <a href="#" id="logoutBtn2"
+                 style="display:flex;align-items:center;gap:9px;padding:9px 10px;
+                        border-radius:6px;font-size:12.5px;color:var(--danger);
+                        text-decoration:none;"
+                 onmouseover="this.style.background='#FEF2F2'"
+                 onmouseout="this.style.background=''">
+                <i class="bi bi-box-arrow-right"></i> Sign Out
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- END Profile dropdown -->
+
+      </div>
+    </header>
+    <!-- END TOPBAR -->
+
+
+    <!-- ══════════════ PAGE CONTENT ══════════════ -->
+    <main class="page-content" role="main">
+
+      <!-- Print-only header -->
+      <div class="print-header-leave"
+           style="display:none;justify-content:space-between;align-items:flex-start;
+                  margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid #2563EB;">
+        <div>
+          <div style="font-size:20px;font-weight:800;">
+            EMS<span style="color:#2563EB;">Pro</span>
+          </div>
+          <div style="font-size:15px;font-weight:700;margin-top:4px;">
+            Leave Management Report
+          </div>
+        </div>
+        <div style="text-align:right;font-size:11px;color:#64748B;">
+          <div>Generated: <script>document.write(new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}))</script></div>
+          <div>Exported by: Admin</div>
+        </div>
+      </div>
+
+      <!-- ── Page Header ── -->
+      <div class="page-header">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+              <li class="breadcrumb-item active">Leave Management</li>
+            </ol>
+          </nav>
+          <h1 class="page-title">Leave Management</h1>
+          <p class="page-subtitle">Review, approve and track all employee leave requests</p>
+        </div>
+
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+
+          <!-- ═══ PROFESSIONAL EXPORT DROPDOWN ═══ -->
+          <div class="dropdown">
+            <button class="btn-primary-ems" id="leaveExportBtn"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    aria-expanded="false"
+                    aria-label="Export options">
+              <i class="bi bi-download"></i>
+              Export
+              <i class="bi bi-chevron-down" style="font-size:10px;"></i>
+            </button>
+
+            <div class="dropdown-menu leave-export-menu p-0"
+                 aria-labelledby="leaveExportBtn">
+
+              <!-- Header -->
+              <div class="lem-header">
+                <h6><i class="bi bi-download"></i> Export Leave Data</h6>
+                <p id="lemHeaderSub">Choose a format to download records</p>
+              </div>
+
+              <!-- Options -->
+              <div class="lem-body">
+
+                <button class="lem-option csv" id="lemCsv">
+                  <div class="lem-icon"><i class="bi bi-filetype-csv"></i></div>
+                  <div class="lem-text">
+                    <span class="lem-label">CSV File</span>
+                    <span class="lem-sub">Universal format, works everywhere</span>
+                  </div>
+                  <i class="bi bi-chevron-right lem-arrow"></i>
+                </button>
+
+                <button class="lem-option excel" id="lemExcel">
+                  <div class="lem-icon"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                  <div class="lem-text">
+                    <span class="lem-label">Excel File</span>
+                    <span class="lem-sub">Microsoft Excel &amp; Google Sheets</span>
+                  </div>
+                  <i class="bi bi-chevron-right lem-arrow"></i>
+                </button>
+
+                <div class="lem-divider"></div>
+
+                <button class="lem-option pdf" id="lemPdf">
+                  <div class="lem-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                  <div class="lem-text">
+                    <span class="lem-label">PDF Report</span>
+                    <span class="lem-sub">Branded, print-ready document</span>
+                  </div>
+                  <i class="bi bi-chevron-right lem-arrow"></i>
+                </button>
+
+                <button class="lem-option print" id="lemPrint">
+                  <div class="lem-icon"><i class="bi bi-printer"></i></div>
+                  <div class="lem-text">
+                    <span class="lem-label">Print</span>
+                    <span class="lem-sub">Print current table view</span>
+                  </div>
+                  <i class="bi bi-chevron-right lem-arrow"></i>
+                </button>
+
+              </div>
+
+              <!-- Progress bar (appears during export) -->
+              <div class="lem-progress-wrap" id="lemProgressWrap">
+                <div class="lem-progress-top">
+                  <span id="lemProgressLabel">Preparing…</span>
+                  <span id="lemProgressPct">0%</span>
+                </div>
+                <div class="lem-progress-bg">
+                  <div class="lem-progress-fill" id="lemProgressFill"></div>
+                </div>
+              </div>
+
+              <!-- Footer note -->
+              <div class="lem-footer">
+                <i class="bi bi-funnel-fill"></i>
+                Exports reflect currently filtered records only
+              </div>
+
+            </div>
+          </div>
+          <!-- END EXPORT DROPDOWN -->
+
+        </div>
+      </div>
+      <!-- END PAGE HEADER -->
+
+
+      <!-- ── SUMMARY STAT CARDS ── -->
+      <div class="leave-stats-grid">
+
+        <div class="leave-stat-card total">
+          <div class="lsc-icon icon-blue"><i class="bi bi-collection-fill"></i></div>
+          <div class="lsc-body">
+            <div class="lsc-value" id="scTotal">0</div>
+            <div class="lsc-label">Total Requests</div>
+            <div class="lsc-sub info">
+              <i class="bi bi-calendar3"></i> All time
+            </div>
+          </div>
+        </div>
+
+        <div class="leave-stat-card pending">
+          <div class="lsc-icon icon-orange"><i class="bi bi-hourglass-split"></i></div>
+          <div class="lsc-body">
+            <div class="lsc-value" id="scPending">0</div>
+            <div class="lsc-label">Pending Review</div>
+            <div class="lsc-sub warn">
+              <i class="bi bi-exclamation-circle"></i> Needs action
+            </div>
+          </div>
+        </div>
+
+        <div class="leave-stat-card approved">
+          <div class="lsc-icon icon-green"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="lsc-body">
+            <div class="lsc-value" id="scApproved">0</div>
+            <div class="lsc-label">Approved</div>
+            <div class="lsc-sub success">
+              <i class="bi bi-arrow-up-short"></i> This month
+            </div>
+          </div>
+        </div>
+
+        <div class="leave-stat-card rejected">
+          <div class="lsc-icon icon-red"><i class="bi bi-x-circle-fill"></i></div>
+          <div class="lsc-body">
+            <div class="lsc-value" id="scRejected">0</div>
+            <div class="lsc-label">Rejected</div>
+            <div class="lsc-sub danger">
+              <i class="bi bi-arrow-down-short"></i> This month
+            </div>
+          </div>
+        </div>
+
+        <div class="leave-stat-card balance">
+          <div class="lsc-icon icon-purple"><i class="bi bi-wallet2"></i></div>
+          <div class="lsc-body">
+            <div class="lsc-value" id="scBalance">0</div>
+            <div class="lsc-label">Leave Balance</div>
+            <div class="lsc-sub purple">
+              <i class="bi bi-calendar-check"></i> Days remaining
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END STAT CARDS -->
+
+
+      <!-- ── CHARTS ROW ── -->
+      <div class="leave-charts-row">
+
+        <!-- Monthly bar chart -->
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <div>
+              <p class="cbt">Monthly Leave Requests</p>
+              <p class="cbs">Approved, Rejected &amp; Pending — this year</p>
+            </div>
+            <div class="period-tabs">
+              <button class="active">Year</button>
+              <button>6M</button>
+              <button>3M</button>
+            </div>
+          </div>
+          <div class="chart-box-body">
+            <div class="chart-legend" style="margin-bottom:12px;">
+              <span class="legend-item">
+                <span class="legend-dot" style="background:#10B981;"></span>Approved
+              </span>
+              <span class="legend-item">
+                <span class="legend-dot" style="background:#EF4444;"></span>Rejected
+              </span>
+              <span class="legend-item">
+                <span class="legend-dot" style="background:#F59E0B;"></span>Pending
+              </span>
+            </div>
+            <div style="height:200px;position:relative;">
+              <canvas id="leaveBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leave type donut -->
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <div>
+              <p class="cbt">By Leave Type</p>
+              <p class="cbs">Distribution of request categories</p>
+            </div>
+          </div>
+          <div class="chart-box-body">
+            <div style="height:160px;position:relative;margin-bottom:14px;">
+              <canvas id="leaveTypeDonut"></canvas>
+            </div>
+            <!-- Legend list -->
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--secondary);">
+                  <span style="width:8px;height:8px;border-radius:2px;background:#2563EB;display:inline-block;"></span>Annual
+                </span>
+                <span style="font-size:12px;font-weight:600;color:var(--dark);">38%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--secondary);">
+                  <span style="width:8px;height:8px;border-radius:2px;background:#EF4444;display:inline-block;"></span>Sick
+                </span>
+                <span style="font-size:12px;font-weight:600;color:var(--dark);">24%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--secondary);">
+                  <span style="width:8px;height:8px;border-radius:2px;background:#F59E0B;display:inline-block;"></span>Casual
+                </span>
+                <span style="font-size:12px;font-weight:600;color:var(--dark);">18%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--secondary);">
+                  <span style="width:8px;height:8px;border-radius:2px;background:#8B5CF6;display:inline-block;"></span>Other
+                </span>
+                <span style="font-size:12px;font-weight:600;color:var(--dark);">20%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END CHARTS ROW -->
+
+
+      <!-- ── MAIN TABLE CARD ── -->
+      <div class="card">
+
+        <!-- ── Status tabs ── -->
+        <div class="status-tabs" role="tablist" aria-label="Filter by status">
+          <button class="status-tab all active" data-tab="all" role="tab" aria-selected="true">
+            <i class="bi bi-list-ul"></i>
+            All Requests
+            <span class="tab-count" id="tabCountAll">0</span>
+          </button>
+          <button class="status-tab pending" data-tab="Pending" role="tab">
+            <i class="bi bi-hourglass-split"></i>
+            Pending
+            <span class="tab-count" id="tabCountPending">0</span>
+          </button>
+          <button class="status-tab approved" data-tab="Approved" role="tab">
+            <i class="bi bi-check-circle"></i>
+            Approved
+            <span class="tab-count" id="tabCountApproved">0</span>
+          </button>
+          <button class="status-tab rejected" data-tab="Rejected" role="tab">
+            <i class="bi bi-x-circle"></i>
+            Rejected
+            <span class="tab-count" id="tabCountRejected">0</span>
+          </button>
+        </div>
+
+        <!-- ── Toolbar ── -->
+        <div style="padding:14px 20px;border-bottom:1px solid var(--border);">
+          <div class="leave-toolbar">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input type="search" id="leaveSearch"
+                     placeholder="Search by name, ID, department…"
+                     aria-label="Search leave requests" />
+            </div>
+            <select id="leaveTypeFilter" aria-label="Filter by leave type">
+              <option value="">All Leave Types</option>
+              <option value="Annual">Annual Leave</option>
+              <option value="Sick">Sick Leave</option>
+              <option value="Casual">Casual Leave</option>
+              <option value="Maternity">Maternity Leave</option>
+              <option value="Paternity">Paternity Leave</option>
+              <option value="Emergency">Emergency Leave</option>
+              <option value="Unpaid">Unpaid Leave</option>
+            </select>
+            <select id="leaveDeptFilter" aria-label="Filter by department">
+              <option value="">All Departments</option>
+              <option>Engineering</option>
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>Human Resources</option>
+              <option>Finance</option>
+              <option>Operations</option>
+              <option>Customer Support</option>
+              <option>Product</option>
+              <option>Design</option>
+            </select>
+            <select id="leaveSortSelect" aria-label="Sort by">
+              <option value="date-desc">Applied (Newest)</option>
+              <option value="date-asc">Applied (Oldest)</option>
+              <option value="days-desc">Days (Most)</option>
+              <option value="days-asc">Days (Fewest)</option>
+              <option value="name-asc">Name A→Z</option>
+            </select>
+            <button class="btn-outline-ems" id="btnResetLeave">
+              <i class="bi bi-arrow-counterclockwise"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- ── Stats bar ── -->
+        <div class="table-stats-bar">
+          <div class="stats-bar-item">
+            <i class="bi bi-table" style="color:var(--primary);"></i>
+            <strong id="leaveStatShowing">0</strong>
+            <span>requests shown</span>
+          </div>
+          <div class="stats-bar-item">
+            <i class="bi bi-hourglass-split" style="color:var(--warning);"></i>
+            <strong id="leaveStatPending">0</strong>
+            <span>pending</span>
+          </div>
+          <div class="stats-bar-item">
+            <i class="bi bi-check-circle" style="color:var(--success);"></i>
+            <strong id="leaveStatApproved">0</strong>
+            <span>approved</span>
+          </div>
+        </div>
+
+        <!-- ── Table ── -->
+        <div class="table-wrapper">
+          <table class="ems-table" id="leaveTable" aria-label="Leave requests">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Leave Type</th>
+                <th>Date Range</th>
+                <th>Days</th>
+                <th>Status</th>
+                <th>View</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leaveTbody">
+              <!-- Skeleton rows -->
+              <tr class="skeleton-row">
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-lg"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+              </tr>
+              <tr class="skeleton-row">
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-lg"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+              </tr>
+              <tr class="skeleton-row">
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-lg"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-md"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+                <td><div class="skel skel-xs"></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ── Table footer / pagination ── -->
+        <div class="tbl-footer">
+          <div class="tbl-footer-info">
+            Showing <strong id="leavePageInfo">1–8</strong>
+            of <strong id="leaveTotalInfo">0</strong> requests
+          </div>
+          <div class="pagination-ems" id="leavePagination"></div>
+        </div>
+
+      </div>
+      <!-- END TABLE CARD -->
+
+    </main>
+    <!-- END PAGE CONTENT -->
+
+  </div>
+  <!-- END MAIN CONTENT -->
+
+</div>
+<!-- END APP SHELL -->
+
+
+<!-- ══════════════════════════════════════════
+     LEAVE DETAIL MODAL
+══════════════════════════════════════════ -->
+<div class="modal fade modal-ems" id="leaveDetailModal"
+     tabindex="-1" aria-labelledby="leaveDetailLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="overflow:hidden;border:none;">
+
+      <!-- Banner -->
+      <div class="leave-detail-banner">
+        <div class="ldb-inner">
+          <div class="ldb-avatar" id="ldAvatar">??</div>
+          <div class="ldb-info">
+            <h5 id="ldName">—</h5>
+            <p id="ldSub">—</p>
+          </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white"
+                style="position:absolute;top:14px;right:16px;"
+                data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="leave-info-grid">
+
+        <div class="lig-item">
+          <span class="lbl">Request ID</span>
+          <span class="val" id="ldReqId">—</span>
+        </div>
+
+        <div class="lig-item">
+          <span class="lbl">Status</span>
+          <span id="ldStatus"></span>
+        </div>
+
+        <div class="lig-item full">
+          <span class="lbl">Leave Type</span>
+          <span id="ldLeaveType"></span>
+        </div>
+
+        <div class="lig-item">
+          <span class="lbl">From — To</span>
+          <span class="val" id="ldDateRange">—</span>
+        </div>
+
+        <div class="lig-item">
+          <span class="lbl">Duration</span>
+          <span class="val" id="ldDays">—</span>
+        </div>
+
+        <div class="lig-item">
+          <span class="lbl">Applied On</span>
+          <span class="val" id="ldApplied">—</span>
+        </div>
+
+        <div class="lig-item">
+          <span class="lbl">Reviewed By</span>
+          <span class="val" id="ldApprovedBy">—</span>
+        </div>
+
+        <div class="lig-item full">
+          <span class="lbl" style="margin-bottom:7px;">Reason</span>
+          <div class="leave-reason-box" id="ldReason">—</div>
+        </div>
+
+      </div>
+
+      <!-- Approve / Reject actions (hidden when not Pending) -->
+      <div class="leave-modal-actions" id="ldModalActions" style="display:none;">
+        <button class="btn-approve-lg" id="btnModalApprove">
+          <i class="bi bi-check-lg"></i> Approve
+        </button>
+        <button class="btn-reject-lg" id="btnModalReject">
+          <i class="bi bi-x-lg"></i> Reject
+        </button>
+      </div>
+
+      <!-- Footer close -->
+      <div style="padding:13px 24px;border-top:1px solid var(--border);">
+        <button class="btn-outline-ems w-100" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- END DETAIL MODAL -->
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+<script src="../js/leaves.js"></script>
+<script src="../js/common.js"></script>
+
+</body>
+</html>

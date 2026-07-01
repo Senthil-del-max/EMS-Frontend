@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — EMS Pro</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
+</head>
+<body>
+
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" role="navigation">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div><div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div><div class="brand-tagline">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+      <a href="departments.html" class="nav-link" data-page="departments"><i class="bi bi-diagram-3"></i><span>Departments</span></a>
+      <a href="employees.html"   class="nav-link" data-page="employees"><i class="bi bi-people"></i><span>Employees</span></a>
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html"  class="nav-link" data-page="attendance"><i class="bi bi-calendar-check"></i><span>Attendance</span></a>
+      <a href="leaves.html"      class="nav-link" data-page="leaves"><i class="bi bi-calendar-x"></i><span>Leave Management</span><span class="badge-pill">5</span></a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll"><i class="bi bi-cash-coin"></i><span>Payroll</span></a>
+      <a href="reports.html"     class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"  class="nav-link" data-page="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+      <a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="search" id="globalSearch" placeholder="Search…" aria-label="Search" />
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="Notifications">
+            <i class="bi bi-bell"></i><span class="dot" id="notifBadgeDot"></span>
+          </button>
+          <div class="dropdown-menu p-0" style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);">
+            <div style="padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span>
+              <button id="markAllRead" style="background:none;border:none;font-size:11.5px;color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">Mark all read</button>
+            </div>
+            <div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">4 unread notifications</div>
+            <div style="padding:10px;border-top:1px solid var(--border);text-align:center;"><a href="#" style="font-size:12px;color:var(--primary);">View all</a></div>
+          </div>
+        </div>
+        <a href="settings.html" class="topbar-icon-btn" aria-label="Settings"><i class="bi bi-gear"></i></a>
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown" tabindex="0" role="button">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+          </div>
+          <div class="dropdown-menu p-0" style="width:220px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:13px 16px;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;font-weight:600;color:var(--dark);" data-user-name></div>
+              <div style="font-size:11px;color:var(--text-muted);" data-user-email></div>
+            </div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html"  style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-person"></i> My Profile</a>
+              <a href="settings.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-gear"></i> Settings</a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);">
+              <a href="#" id="logoutBtn2" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--danger);text-decoration:none;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content" role="main">
+
+      <nav aria-label="breadcrumb" style="margin-bottom:20px;">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+          <li class="breadcrumb-item active">My Profile</li>
+        </ol>
+      </nav>
+
+      <!-- COVER + AVATAR -->
+      <div class="profile-cover">
+        <button class="profile-cover-edit"><i class="bi bi-camera"></i> Change Cover</button>
+      </div>
+
+      <div class="profile-id-row">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-xl" id="profAvatarXl">??</div>
+          <label class="avatar-camera-btn" for="avatarFileInput" title="Change photo">
+            <i class="bi bi-camera-fill"></i>
+          </label>
+          <input type="file" id="avatarFileInput" accept="image/*" hidden />
+        </div>
+        <div class="profile-id-info">
+          <h2 id="profNameHeader">—</h2>
+          <div class="role-line">
+            <span id="profRoleHeader">—</span>
+            <span class="verified-chip"><i class="bi bi-patch-check-fill"></i> Verified</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+            <i class="bi bi-envelope" style="margin-right:4px;"></i><span id="profEmailSmall">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAT STRIP -->
+      <div class="profile-stat-strip">
+        <div class="pstat-card">
+          <div class="pstat-icon" style="background:#EDE9FE;color:#7C3AED;"><i class="bi bi-calendar-check"></i></div>
+          <div><div class="pstat-value">96%</div><div class="pstat-label">Attendance Rate</div></div>
+        </div>
+        <div class="pstat-card">
+          <div class="pstat-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-check2-circle"></i></div>
+          <div><div class="pstat-value">142</div><div class="pstat-label">Tasks Completed</div></div>
+        </div>
+        <div class="pstat-card">
+          <div class="pstat-icon" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-calendar-x"></i></div>
+          <div><div class="pstat-value">12</div><div class="pstat-label">Leave Days Used</div></div>
+        </div>
+        <div class="pstat-card">
+          <div class="pstat-icon" style="background:#EFF6FF;color:#2563EB;"><i class="bi bi-award"></i></div>
+          <div><div class="pstat-value">5</div><div class="pstat-label">Years of Service</div></div>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="profile-tabs" role="tablist">
+        <button class="profile-tab-btn active" data-tab="tabPersonal" role="tab">
+          <i class="bi bi-person-vcard"></i> Personal Info
+        </button>
+        <button class="profile-tab-btn" data-tab="tabProfessional" role="tab">
+          <i class="bi bi-briefcase"></i> Professional
+        </button>
+        <button class="profile-tab-btn" data-tab="tabSecurity" role="tab">
+          <i class="bi bi-shield-lock"></i> Security
+        </button>
+      </div>
+
+      <div class="profile-grid">
+
+        <!-- ═══ LEFT COLUMN: tab panels ═══ -->
+        <div>
+
+          <!-- TAB 1: Personal Info -->
+          <div class="profile-tab-panel active" id="tabPersonal">
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Personal Information</h3><p>Update your personal details</p></div>
+              </div>
+              <div class="psc-body">
+                <div class="pform-grid">
+                  <div class="pform-field">
+                    <label>Full Name</label>
+                    <input type="text" id="fName" placeholder="Your full name" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Email Address</label>
+                    <input type="email" id="fEmail" placeholder="you@company.com" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Phone Number</label>
+                    <input type="tel" id="fPhone" placeholder="+1 (555) 000-0000" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Location</label>
+                    <input type="text" id="fLocation" placeholder="City, Country" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Department</label>
+                    <input type="text" id="fDept" placeholder="e.g. Human Resources" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Employee ID</label>
+                    <input type="text" id="fEmpId" placeholder="e.g. EMP-0001" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Join Date</label>
+                    <input type="date" id="fJoinDate" />
+                  </div>
+                  <div class="pform-field">
+                    <label>Role / Title</label>
+                    <input type="text" id="fRole" disabled />
+                  </div>
+                  <div class="pform-field full">
+                    <label>Bio</label>
+                    <textarea id="fBio" rows="3" placeholder="A short bio about yourself…" style="resize:none;"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="save-bar">
+                <button class="btn-outline-ems" id="btnCancelProfile">Cancel</button>
+                <button class="btn-primary-ems" id="btnSaveProfile" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                  <i class="bi bi-check-lg"></i> Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Professional -->
+          <div class="profile-tab-panel" id="tabProfessional">
+
+            <!-- Skills -->
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Skills</h3><p>Add your professional skills and expertise</p></div>
+              </div>
+              <div class="psc-body">
+                <div class="skill-chips-wrap" id="skillChipsWrap"></div>
+                <div style="margin-top:14px;display:flex;gap:8px;align-items:center;">
+                  <div class="skill-add-input">
+                    <i class="bi bi-plus-lg" style="color:#7C3AED;font-size:11px;"></i>
+                    <input type="text" id="skillInput" placeholder="Add a skill…" />
+                  </div>
+                  <button class="btn-outline-ems" id="btnAddSkill" style="padding:7px 14px;font-size:12px;">Add</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Work Experience</h3><p>Your professional history</p></div>
+              </div>
+              <div class="psc-body">
+                <div class="timeline-list" id="experienceList"></div>
+
+                <button class="add-entry-btn" data-bs-toggle="collapse" data-bs-target="#expFormCollapse">
+                  <i class="bi bi-plus-circle"></i> Add Experience
+                </button>
+                <div class="collapse" id="expFormCollapse">
+                  <form id="expForm" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+                    <div class="pform-grid">
+                      <div class="pform-field full">
+                        <label>Job Title</label>
+                        <input type="text" id="expTitle" placeholder="e.g. Senior HR Manager" />
+                      </div>
+                      <div class="pform-field full">
+                        <label>Company</label>
+                        <input type="text" id="expCompany" placeholder="Company name" />
+                      </div>
+                      <div class="pform-field">
+                        <label>Start Date</label>
+                        <input type="text" id="expStart" placeholder="e.g. Jan 2022" />
+                      </div>
+                      <div class="pform-field">
+                        <label>End Date</label>
+                        <input type="text" id="expEnd" placeholder="e.g. Present" />
+                      </div>
+                      <div class="pform-field full">
+                        <label>Description</label>
+                        <textarea id="expDesc" rows="2" placeholder="Brief description…" style="resize:none;"></textarea>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn-primary-ems" style="margin-top:10px;background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                      <i class="bi bi-check-lg"></i> Add Entry
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Education</h3><p>Your academic background</p></div>
+              </div>
+              <div class="psc-body">
+                <div class="timeline-list" id="educationList"></div>
+
+                <button class="add-entry-btn" data-bs-toggle="collapse" data-bs-target="#eduFormCollapse">
+                  <i class="bi bi-plus-circle"></i> Add Education
+                </button>
+                <div class="collapse" id="eduFormCollapse">
+                  <form id="eduForm" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+                    <div class="pform-grid">
+                      <div class="pform-field full">
+                        <label>Degree</label>
+                        <input type="text" id="eduDegree" placeholder="e.g. B.Sc. Computer Science" />
+                      </div>
+                      <div class="pform-field">
+                        <label>School / University</label>
+                        <input type="text" id="eduSchool" placeholder="Institution name" />
+                      </div>
+                      <div class="pform-field">
+                        <label>Year</label>
+                        <input type="text" id="eduYear" placeholder="e.g. 2018" />
+                      </div>
+                    </div>
+                    <button type="submit" class="btn-primary-ems" style="margin-top:10px;background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                      <i class="bi bi-check-lg"></i> Add Entry
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 3: Security -->
+          <div class="profile-tab-panel" id="tabSecurity">
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Change Password</h3><p>Use a strong password to keep your account secure</p></div>
+              </div>
+              <div class="psc-body">
+                <form id="changePasswordForm">
+                  <div class="pform-field" style="margin-bottom:16px;">
+                    <label>Current Password</label>
+                    <div style="position:relative;">
+                      <input type="password" id="oldPassword" placeholder="Enter current password" style="padding-right:40px;" />
+                      <button type="button" id="togglePwOld" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="pform-field" style="margin-bottom:6px;">
+                    <label>New Password</label>
+                    <div style="position:relative;">
+                      <input type="password" id="newPassword" placeholder="Enter new password" style="padding-right:40px;" />
+                      <button type="button" id="togglePwNew" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <div class="pw-strength-wrap">
+                      <div class="pw-strength-bar">
+                        <div class="pw-strength-seg"></div><div class="pw-strength-seg"></div>
+                        <div class="pw-strength-seg"></div><div class="pw-strength-seg"></div>
+                      </div>
+                      <div class="pw-strength-label" id="pwStrengthLabel"></div>
+                    </div>
+                  </div>
+                  <div class="pform-field" style="margin-bottom:18px;margin-top:16px;">
+                    <label>Confirm New Password</label>
+                    <div style="position:relative;">
+                      <input type="password" id="confirmPassword" placeholder="Re-enter new password" style="padding-right:40px;" />
+                      <button type="button" id="togglePwConfirm" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div style="background:#FAF5FF;border:1px solid #DDD6FE;border-radius:var(--radius-md);padding:12px 14px;margin-bottom:18px;font-size:11.5px;color:#6D28D9;">
+                    <i class="bi bi-info-circle-fill" style="margin-right:5px;"></i>
+                    Use at least 8 characters with a mix of letters, numbers and symbols for a strong password.
+                  </div>
+                  <button type="submit" class="btn-primary-ems" id="btnChangePassword" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);">
+                    <i class="bi bi-shield-check"></i> Update Password
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- 2FA placeholder card -->
+            <div class="profile-section-card">
+              <div class="psc-header">
+                <div><h3>Two-Factor Authentication</h3><p>Add an extra layer of security</p></div>
+              </div>
+              <div class="psc-body" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:var(--radius-md);background:#FEF2F2;color:#DC2626;display:flex;align-items:center;justify-content:center;font-size:19px;">
+                    <i class="bi bi-shield-x"></i>
+                  </div>
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--dark);">Currently Disabled</div>
+                    <div style="font-size:11.5px;color:var(--text-muted);">Protect your account with 2FA via authenticator app</div>
+                  </div>
+                </div>
+                <button class="btn-outline-ems" onclick="EMS.toast('2FA setup coming soon.', 'info')">
+                  <i class="bi bi-shield-plus"></i> Enable 2FA
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- END LEFT COLUMN -->
+
+        <!-- ═══ RIGHT COLUMN: info sidebar ═══ -->
+        <div>
+
+          <div class="profile-section-card">
+            <div class="psc-header"><h3>Quick Info</h3></div>
+            <div class="psc-body" style="padding:8px 20px;">
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-envelope"></i> Email</span><span class="val" id="infoEmail">—</span></div>
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-telephone"></i> Phone</span><span class="val" id="infoPhone">—</span></div>
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-geo-alt"></i> Location</span><span class="val" id="infoLocation">—</span></div>
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-diagram-3"></i> Department</span><span class="val" id="infoDept">—</span></div>
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-person-badge"></i> Employee ID</span><span class="val" id="infoEmpId">—</span></div>
+              <div class="info-stat-row"><span class="lbl"><i class="bi bi-calendar3"></i> Joined</span><span class="val" id="infoJoinDate">—</span></div>
+            </div>
+          </div>
+
+          <div class="profile-section-card">
+            <div class="psc-header"><h3>Recent Activity</h3></div>
+            <div class="psc-body" style="padding:8px 20px;">
+              <div class="mini-activity-item">
+                <div class="mini-activity-dot"><i class="bi bi-pencil"></i></div>
+                <div><div class="mini-activity-text">Updated profile information</div><div class="mini-activity-time">Just now</div></div>
+              </div>
+              <div class="mini-activity-item">
+                <div class="mini-activity-dot"><i class="bi bi-box-arrow-in-right"></i></div>
+                <div><div class="mini-activity-text">Signed in to EMS Pro</div><div class="mini-activity-time">Today</div></div>
+              </div>
+              <div class="mini-activity-item">
+                <div class="mini-activity-dot"><i class="bi bi-shield-check"></i></div>
+                <div><div class="mini-activity-text">Account security verified</div><div class="mini-activity-time">This week</div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- END RIGHT COLUMN -->
+
+      </div>
+      <!-- END PROFILE GRID -->
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/profile.js"></script>
+<script src="../js/common.js"></script>
+</body>
+</html>

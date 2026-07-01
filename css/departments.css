@@ -1,0 +1,297 @@
+/* ============================================================
+   departments.css — Department Management page styles
+   ============================================================ */
+
+/* ── Toolbar row (search + filter + add button) ── */
+.dept-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dept-toolbar .search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+.dept-toolbar .search-wrap i {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 15px;
+  pointer-events: none;
+}
+.dept-toolbar .search-wrap input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: var(--text-main);
+  background: var(--white);
+  outline: none;
+  transition: var(--transition);
+}
+.dept-toolbar .search-wrap input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+.dept-toolbar .search-wrap input::placeholder { color: var(--text-muted); }
+
+.dept-toolbar .filter-select {
+  padding: 9px 32px 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: var(--secondary);
+  background: var(--white);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%2394A3B8' d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 140px;
+}
+.dept-toolbar .filter-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+}
+
+/* ── Stats strip above table ── */
+.dept-stats-strip {
+  display: flex;
+  gap: 24px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--light);
+  flex-wrap: wrap;
+}
+.dept-stats-strip .stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+}
+.dept-stats-strip .stat-pill i {
+  font-size: 15px;
+}
+.dept-stats-strip .stat-pill strong {
+  font-weight: 700;
+  color: var(--dark);
+}
+.dept-stats-strip .stat-pill span {
+  color: var(--text-muted);
+}
+
+/* ── Department icon circle in table ── */
+.dept-icon-cell {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.dept-color-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.dept-name-text  { font-size: 13.5px; font-weight: 600; color: var(--dark); }
+.dept-code-text  { font-size: 11px; color: var(--text-muted); }
+
+/* ── Head cell ── */
+.head-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.head-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.head-name { font-size: 12.5px; font-weight: 500; color: var(--dark); }
+
+/* ── Employee count badge ── */
+.emp-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.emp-count-badge i { font-size: 12px; color: var(--text-muted); }
+
+/* ── Table footer row (pagination + count) ── */
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.table-footer-info {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.table-footer-info strong { color: var(--dark); font-weight: 600; }
+
+/* ── Loading skeleton ── */
+.skeleton-row td {
+  padding: 16px !important;
+}
+.skeleton-cell {
+  height: 14px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Empty state in table ── */
+.table-empty-state {
+  text-align: center;
+  padding: 56px 24px;
+}
+.table-empty-state i {
+  font-size: 44px;
+  color: var(--text-muted);
+  opacity: .35;
+  display: block;
+  margin-bottom: 12px;
+}
+.table-empty-state h6 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 4px;
+}
+.table-empty-state p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+/* ── View modal — department detail card ── */
+.dept-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #1D4ED8, #2563EB);
+  color: #fff;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.dept-detail-header .big-icon {
+  width: 52px; height: 52px;
+  background: rgba(255,255,255,.15);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.dept-detail-header h5 { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.dept-detail-header p  { font-size: 12px; opacity: .8; margin: 0; }
+
+.dept-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 20px 24px;
+}
+.detail-item label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.detail-item .value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+/* ── Form grid inside modal ── */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 575.98px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .dept-toolbar .search-wrap { max-width: 100%; }
+}
+
+/* ── Delete confirm modal icon ── */
+.delete-confirm-icon {
+  width: 56px; height: 56px;
+  background: #FEF2F2;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 26px;
+  color: var(--danger);
+}
+
+/* ── Row highlight on hover already in style.css; add selection state ── */
+.ems-table tbody tr.selected-row {
+  background: var(--primary-light) !important;
+}
+
+/* ── Color picker dots (for dept color) ── */
+.color-picker-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.color-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform .15s, border-color .15s;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  color: transparent;
+}
+.color-dot:hover  { transform: scale(1.15); }
+.color-dot.active { border-color: var(--dark); color: var(--dark); }
+
+/* ── Responsive table caption count ── */
+@media (max-width: 767.98px) {
+  .dept-stats-strip { gap: 14px; }
+  .dept-detail-grid { grid-template-columns: 1fr; }
+}

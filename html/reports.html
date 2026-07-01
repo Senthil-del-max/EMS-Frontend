@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports & Analytics — EMS Pro</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <link rel="stylesheet" href="../css/reports.css" />
+</head>
+<body>
+
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" role="navigation">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div>
+        <div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div>
+        <div class="brand-tagline">Admin Panel</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+      <a href="departments.html" class="nav-link" data-page="departments"><i class="bi bi-diagram-3"></i><span>Departments</span></a>
+      <a href="employees.html"   class="nav-link" data-page="employees"><i class="bi bi-people"></i><span>Employees</span></a>
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html"  class="nav-link" data-page="attendance"><i class="bi bi-calendar-check"></i><span>Attendance</span></a>
+      <a href="leaves.html"      class="nav-link" data-page="leaves"><i class="bi bi-calendar-x"></i><span>Leave Management</span><span class="badge-pill">5</span></a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll"><i class="bi bi-cash-coin"></i><span>Payroll</span></a>
+      <a href="reports.html"     class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"  class="nav-link" data-page="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+      <a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div class="topbar-search">
+          <i class="bi bi-search"></i>
+          <input type="search" id="globalSearch" placeholder="Search reports…" aria-label="Search" />
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-label="Notifications">
+            <i class="bi bi-bell"></i><span class="dot" id="notifBadgeDot"></span>
+          </button>
+          <div class="dropdown-menu p-0" style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);">
+            <div style="padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span>
+              <button id="markAllRead" style="background:none;border:none;font-size:11.5px;color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">Mark all read</button>
+            </div>
+            <div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">4 unread notifications</div>
+            <div style="padding:10px;border-top:1px solid var(--border);text-align:center;"><a href="#" style="font-size:12px;color:var(--primary);">View all</a></div>
+          </div>
+        </div>
+        <a href="settings.html" class="topbar-icon-btn" aria-label="Settings"><i class="bi bi-gear"></i></a>
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown" tabindex="0" role="button">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block">
+              <div class="profile-name" data-user-name></div>
+              <div class="profile-role" data-user-role></div>
+            </div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+          </div>
+          <div class="dropdown-menu p-0" style="width:220px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:13px 16px;border-bottom:1px solid var(--border);">
+              <div style="font-size:13px;font-weight:600;color:var(--dark);" data-user-name></div>
+              <div style="font-size:11px;color:var(--text-muted);" data-user-email></div>
+            </div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html"  style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-person"></i> My Profile</a>
+              <a href="settings.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-gear"></i> Settings</a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);">
+              <a href="#" id="logoutBtn2" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--danger);text-decoration:none;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''"><i class="bi bi-box-arrow-right"></i> Sign Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content" role="main">
+
+      <nav aria-label="breadcrumb" style="margin-bottom:20px;">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+          <li class="breadcrumb-item active">Reports & Analytics</li>
+        </ol>
+      </nav>
+
+      <!-- DARK ANALYTICS BANNER -->
+      <div class="reports-banner">
+        <div class="rb-left">
+          <div class="eyebrow">📊 Analytics Dashboard</div>
+          <h1>Reports & Insights</h1>
+          <p>All metrics computed live from your HR data — employees, payroll, attendance and leaves.</p>
+        </div>
+        <div class="rb-right">
+          <div class="rb-chip"><span class="val" id="rbEmp">—</span><span class="lbl">Employees</span></div>
+          <div class="rb-chip"><span class="val" id="rbDepts">—</span><span class="lbl">Departments</span></div>
+          <div class="rb-chip"><span class="val" id="rbPay">—</span><span class="lbl">Net Payroll</span></div>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="rpt-filter-bar">
+        <label><i class="bi bi-calendar3" style="color:#6366F1;margin-right:4px;"></i> Period</label>
+        <select id="rptPeriodFilter">
+          <option value="jun2025">June 2025</option>
+          <option value="may2025">May 2025</option>
+          <option value="q2-2025">Q2 2025</option>
+          <option value="ytd">Year to Date 2025</option>
+        </select>
+        <div class="rpt-divider"></div>
+        <label>Department</label>
+        <select id="rptDeptFilter">
+          <option value="">All Departments</option>
+          <option>Engineering</option><option>Marketing</option><option>Sales</option>
+          <option>Human Resources</option><option>Finance</option><option>Operations</option>
+        </select>
+        <div class="rpt-divider"></div>
+        <span style="font-size:12px;color:var(--text-muted);">Showing: <strong id="periodLabel" style="color:#6366F1;">June 2025</strong></span>
+
+        <div style="margin-left:auto;display:flex;gap:10px;">
+          <div class="dropdown">
+            <button class="btn-primary-ems" id="rptExportBtn"
+                    data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"
+                    style="background:linear-gradient(135deg,#312E81,#4338CA);">
+              <i class="bi bi-download"></i> Export Report
+              <i class="bi bi-chevron-down" style="font-size:10px;"></i>
+            </button>
+            <div class="dropdown-menu rpt-export-menu p-0" aria-labelledby="rptExportBtn">
+              <div class="rem-header">
+                <h6><i class="bi bi-bar-chart-line"></i> Export Analytics</h6>
+                <p id="remHeaderSub">Choose a format</p>
+              </div>
+              <div class="rem-body">
+                <button class="rem-option csv" id="remCsv">
+                  <div class="rem-icon"><i class="bi bi-filetype-csv"></i></div>
+                  <div style="flex:1;"><span class="rem-label">CSV File</span><span class="rem-sub">Department analytics data</span></div>
+                  <i class="bi bi-chevron-right rem-arrow"></i>
+                </button>
+                <button class="rem-option excel" id="remExcel">
+                  <div class="rem-icon"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                  <div style="flex:1;"><span class="rem-label">Excel File</span><span class="rem-sub">Microsoft Excel / Google Sheets</span></div>
+                  <i class="bi bi-chevron-right rem-arrow"></i>
+                </button>
+                <div class="rem-divider"></div>
+                <button class="rem-option pdf" id="remPdf">
+                  <div class="rem-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                  <div style="flex:1;"><span class="rem-label">PDF Report</span><span class="rem-sub">Full branded analytics report</span></div>
+                  <i class="bi bi-chevron-right rem-arrow"></i>
+                </button>
+                <button class="rem-option print" id="remPrint">
+                  <div class="rem-icon"><i class="bi bi-printer"></i></div>
+                  <div style="flex:1;"><span class="rem-label">Print</span><span class="rem-sub">Print current analytics view</span></div>
+                  <i class="bi bi-chevron-right rem-arrow"></i>
+                </button>
+              </div>
+              <div class="rem-progress-wrap" id="remProgressWrap">
+                <div class="rem-progress-top"><span id="remProgressLabel">Preparing…</span><span id="remProgressPct">0%</span></div>
+                <div class="rem-progress-bg"><div class="rem-progress-fill" id="remProgressFill"></div></div>
+              </div>
+              <div class="rem-footer"><i class="bi bi-info-circle"></i> All data is computed live from current HR records</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI STRIP -->
+      <div class="kpi-strip">
+        <div class="kpi-card">
+          <div class="kpi-card-top">
+            <div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i class="bi bi-people-fill"></i></div>
+            <span class="kpi-delta up"><i class="bi bi-arrow-up-short"></i>+12</span>
+          </div>
+          <div class="kpi-value" id="kpiEmp">—</div>
+          <div class="kpi-label">Total Employees</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top">
+            <div class="kpi-icon" style="background:#ECFDF5;color:#059669;"><i class="bi bi-patch-check-fill"></i></div>
+            <span class="kpi-delta up"><i class="bi bi-arrow-up-short"></i>Good</span>
+          </div>
+          <div class="kpi-value" id="kpiAttRate">—</div>
+          <div class="kpi-label">Attendance Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top">
+            <div class="kpi-icon" style="background:#FFFBEB;color:#D97706;"><i class="bi bi-hourglass-split"></i></div>
+            <span class="kpi-delta down"><i class="bi bi-arrow-down-short"></i>Action</span>
+          </div>
+          <div class="kpi-value" id="kpiLeaves">—</div>
+          <div class="kpi-label">Pending Leaves</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top">
+            <div class="kpi-icon" style="background:#F0FDF4;color:#059669;"><i class="bi bi-cash-stack"></i></div>
+            <span class="kpi-delta flat">June</span>
+          </div>
+          <div class="kpi-value" id="kpiPayroll">—</div>
+          <div class="kpi-label">Net Payroll</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top">
+            <div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i class="bi bi-diagram-3-fill"></i></div>
+            <span class="kpi-delta flat">Active</span>
+          </div>
+          <div class="kpi-value" id="kpiDepts">—</div>
+          <div class="kpi-label">Departments</div>
+        </div>
+      </div>
+
+      <!-- ROW 1 -->
+      <div class="charts-grid-top">
+        <div class="rpt-chart-card">
+          <div class="rcc-header">
+            <div><p class="rcc-title">Headcount by Department</p><p class="rcc-sub">Number of employees per department — live from payroll data</p></div>
+            <span style="font-size:11px;background:#EEF2FF;color:#4338CA;padding:3px 9px;border-radius:99px;font-weight:600;">Live</span>
+          </div>
+          <div class="rcc-body"><div style="height:220px;position:relative;"><canvas id="chartDeptHeadcount"></canvas></div></div>
+        </div>
+
+        <div class="rpt-chart-card">
+          <div class="rcc-header">
+            <div><p class="rcc-title">Payroll Composition</p><p class="rcc-sub">Gross salary breakdown by component</p></div>
+          </div>
+          <div class="rcc-body">
+            <div style="height:160px;position:relative;margin-bottom:14px;"><canvas id="chartPayrollDonut"></canvas></div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="display:flex;align-items:center;gap:6px;color:var(--secondary);"><span style="width:8px;height:8px;border-radius:2px;background:#6366F1;display:inline-block;"></span>Basic</span><strong style="color:var(--dark);">62%</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="display:flex;align-items:center;gap:6px;color:var(--secondary);"><span style="width:8px;height:8px;border-radius:2px;background:#10B981;display:inline-block;"></span>HRA</span><strong style="color:var(--dark);">19%</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="display:flex;align-items:center;gap:6px;color:var(--secondary);"><span style="width:8px;height:8px;border-radius:2px;background:#2563EB;display:inline-block;"></span>Bonus</span><strong style="color:var(--dark);">5%</strong></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;"><span style="display:flex;align-items:center;gap:6px;color:var(--secondary);"><span style="width:8px;height:8px;border-radius:2px;background:#EF4444;display:inline-block;"></span>Deductions</span><strong style="color:var(--dark);">9%</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 2 -->
+      <div class="charts-grid-mid">
+        <div class="rpt-chart-card">
+          <div class="rcc-header"><div><p class="rcc-title">Attendance Snapshot</p><p class="rcc-sub">Today's status distribution</p></div></div>
+          <div class="rcc-body">
+            <div style="height:160px;position:relative;margin-bottom:12px;"><canvas id="chartAttDonut"></canvas></div>
+            <div style="display:flex;justify-content:space-around;font-size:11.5px;text-align:center;">
+              <div><div style="font-size:16px;font-weight:800;color:#10B981;">Present</div><div style="color:var(--text-muted);">green</div></div>
+              <div><div style="font-size:16px;font-weight:800;color:#EF4444;">Absent</div><div style="color:var(--text-muted);">red</div></div>
+              <div><div style="font-size:16px;font-weight:800;color:#F59E0B;">Late</div><div style="color:var(--text-muted);">amber</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rpt-chart-card">
+          <div class="rcc-header"><div><p class="rcc-title">Leave by Type</p><p class="rcc-sub">Distribution of all leave requests</p></div></div>
+          <div class="rcc-body"><div style="height:200px;position:relative;"><canvas id="chartLeaveType"></canvas></div></div>
+        </div>
+
+        <div class="rpt-chart-card">
+          <div class="rcc-header"><div><p class="rcc-title">Leave Status</p><p class="rcc-sub">Pending · Approved · Rejected</p></div></div>
+          <div class="rcc-body"><div style="height:200px;position:relative;"><canvas id="chartLeaveStatus"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- ROW 3 -->
+      <div class="charts-grid-bot">
+        <div class="rpt-chart-card">
+          <div class="rcc-header">
+            <div><p class="rcc-title">Key Insights</p><p class="rcc-sub">Auto-generated from current data</p></div>
+            <span style="font-size:11px;background:#EEF2FF;color:#4338CA;padding:3px 9px;border-radius:99px;font-weight:600;">Auto</span>
+          </div>
+          <div class="rcc-body">
+            <div class="insight-list" id="insightsList">
+              <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:13px;">
+                <div class="spinner-ems" style="margin:0 auto 10px;"></div>
+                Loading insights…
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rpt-chart-card">
+          <div class="rcc-header"><div><p class="rcc-title">Average Salary by Department</p><p class="rcc-sub">Net take-home ranked highest to lowest</p></div></div>
+          <div class="rcc-body"><div style="height:280px;position:relative;"><canvas id="chartSalaryDept"></canvas></div></div>
+        </div>
+      </div>
+
+      <!-- DEPT BREAKDOWN TABLE -->
+      <div class="rpt-chart-card">
+        <div class="rcc-header">
+          <div><p class="rcc-title">Department Analytics Table</p><p class="rcc-sub">Headcount, average salary and bonus breakdown per department</p></div>
+          <span style="font-size:11px;color:var(--text-muted);"><i class="bi bi-info-circle" style="margin-right:4px;"></i>Computed from payroll records</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="dept-report-table">
+            <thead>
+              <tr><th>Department</th><th>Headcount</th><th>Distribution</th><th>Avg Net Salary</th><th>Total Bonus</th><th>Total Net Pay</th></tr>
+            </thead>
+            <tbody id="deptRptTbody">
+              <tr><td colspan="6" style="text-align:center;padding:24px;"><div class="skel skel-lg" style="width:100%;height:14px;"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="../js/shared-data.js"></script>
+
+<script src="../js/common.js"></script>
+<script src="../js/role.js"></script>
+<script src="../js/shared-data.js"></script>
+<script src="../js/reports.js"></script>
+
+
+</body>
+</html>

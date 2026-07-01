@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMSPro — Create Account</title>
+  <link rel="stylesheet" href="../css/register.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="auth-wrapper">
+
+    <!-- ===== LEFT PANEL (unchanged from Login) ===== -->
+    <div class="left-panel">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+
+      <div class="left-content">
+        <div class="brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-users-gear"></i>
+          </div>
+          <span class="brand-name">EMSPro</span>
+        </div>
+
+        <div class="left-hero">
+          <h1 class="left-headline">Manage Your <br /><span class="highlight">Workforce</span><br />Smarter.</h1>
+          <p class="left-subtext">
+            A unified platform to streamline HR operations, track performance,
+            and empower every member of your organization.
+          </p>
+        </div>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+              <p class="feature-title">Enterprise Security</p>
+              <p class="feature-desc">Role-based access with end-to-end encryption</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div>
+              <p class="feature-title">Real-time Analytics</p>
+              <p class="feature-desc">Live dashboards for actionable workforce insights</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <p class="feature-title">Instant Automation</p>
+              <p class="feature-desc">Payroll, attendance, and reports — automated</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="left-footer">
+          <div class="trust-badges">
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> ISO 27001</span>
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> GDPR Ready</span>
+            <span class="badge"><i class="fa-solid fa-circle-check"></i> SOC 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT PANEL — Register Form ===== -->
+    <div class="right-panel">
+      <div class="form-card">
+
+        <div class="form-brand">
+          <div class="form-brand-icon">
+            <i class="fa-solid fa-users-gear"></i>
+          </div>
+          <span class="form-brand-name">EMSPro</span>
+        </div>
+
+        <div class="form-header">
+          <h2 class="form-title">Create Account</h2>
+          <p class="form-subtitle">Create your EMS account to manage employees and workforce efficiently.</p>
+        </div>
+
+        <!-- Alert box -->
+        <div class="alert-box" id="alertBox" role="alert" aria-live="polite"></div>
+
+        <form id="registerForm" novalidate autocomplete="off">
+
+          <!-- Full Name -->
+          <div class="field-group" id="fg-name">
+            <label class="field-label" for="fullName">Full Name</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="field-input"
+                placeholder="John Doe"
+                autocomplete="name"
+              />
+            </div>
+            <span class="field-error" id="err-name"></span>
+          </div>
+
+          <!-- Email -->
+          <div class="field-group" id="fg-email">
+            <label class="field-label" for="email">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="field-input"
+                placeholder="john@company.com"
+                autocomplete="email"
+              />
+            </div>
+            <span class="field-error" id="err-email"></span>
+          </div>
+
+          <!-- Password -->
+          <div class="field-group" id="fg-password">
+            <label class="field-label" for="password">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="field-input"
+                placeholder="Min. 8 characters"
+                autocomplete="new-password"
+              />
+              <button type="button" class="eye-btn" id="togglePassword" aria-label="Toggle password visibility">
+                <i class="fa-solid fa-eye" id="eyeIcon1"></i>
+              </button>
+            </div>
+            <div class="strength-bar" id="strengthBar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <span class="strength-label" id="strengthLabel"></span>
+            <span class="field-error" id="err-password"></span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="field-group" id="fg-confirm">
+            <label class="field-label" for="confirmPassword">Confirm Password</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                class="field-input"
+                placeholder="Re-enter password"
+                autocomplete="new-password"
+              />
+              <button type="button" class="eye-btn" id="toggleConfirm" aria-label="Toggle confirm password visibility">
+                <i class="fa-solid fa-eye" id="eyeIcon2"></i>
+              </button>
+            </div>
+            <span class="field-error" id="err-confirm"></span>
+          </div>
+
+          <!-- Role -->
+          <div class="field-group" id="fg-role">
+            <label class="field-label" for="role">Role</label>
+            <div class="input-wrap select-wrap">
+              <span class="input-icon"><i class="fa-solid fa-id-badge"></i></span>
+              <select id="role" name="role" class="field-input field-select">
+                <option value="" disabled selected>Select your role</option>
+                <option value="EMPLOYEE">Employee</option>
+                <option value="ADMIN">Admin</option>
+                <option value="HR">HR</option>
+              </select>
+              <span class="select-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <span class="field-error" id="err-role"></span>
+          </div>
+
+          <!-- Terms -->
+          <div class="terms-row" id="fg-terms">
+            <label class="checkbox-label">
+              <input type="checkbox" id="terms" name="terms" class="checkbox-input" />
+              <span class="checkbox-custom"></span>
+              <span class="checkbox-text">
+                I agree to the <a href="#" class="link">Terms</a> &amp; <a href="#" class="link">Privacy Policy</a>
+              </span>
+            </label>
+            <span class="field-error" id="err-terms"></span>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-spinner" id="btnSpinner" aria-hidden="true"></span>
+          </button>
+
+        </form>
+
+        <p class="login-link">
+          Already have an account?
+          <a href="login.html">Sign In</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/register.js"></script>
+</body>
+</html>

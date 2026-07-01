@@ -1,0 +1,364 @@
+/* ============================================================
+   employees.css — Employee Management page styles
+   Depends on: style.css, pages.css (must be loaded first)
+   ============================================================ */
+
+/* ══════════════════════════════════════════════
+   EMPLOYEE TABLE — avatar & name cell
+══════════════════════════════════════════════ */
+
+/* Avatar color palette helpers (applied via JS inline styles,
+   these classes provide fallback theming) */
+.emp-avatar-blue   { background: #EFF6FF; color: #2563EB; }
+.emp-avatar-green  { background: #ECFDF5; color: #059669; }
+.emp-avatar-orange { background: #FFFBEB; color: #D97706; }
+.emp-avatar-purple { background: #F5F3FF; color: #7C3AED; }
+.emp-avatar-red    { background: #FEF2F2; color: #DC2626; }
+.emp-avatar-cyan   { background: #ECFEFF; color: #0891B2; }
+
+/* Department tag inside table */
+.dept-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--secondary);
+  white-space: nowrap;
+}
+.dept-tag i { font-size: 12px; }
+
+/* ══════════════════════════════════════════════
+   EMPLOYEE PROFILE MODAL — banner header
+══════════════════════════════════════════════ */
+.emp-profile-banner {
+  background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 55%, #0EA5E9 100%);
+  padding: 24px;
+  color: #fff;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative circle in banner */
+.emp-profile-banner::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  right: -40px;
+  top: -60px;
+  pointer-events: none;
+}
+.emp-profile-banner::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .04);
+  left: -20px;
+  bottom: -30px;
+  pointer-events: none;
+}
+
+/* Large avatar inside profile modal */
+.profile-avatar-lg {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .35);
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.emp-banner-info {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+}
+.emp-banner-info h4 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  line-height: 1.2;
+}
+.emp-banner-info p {
+  font-size: 13px;
+  opacity: .85;
+  margin-bottom: 8px;
+}
+
+/* Tags row below name in banner */
+.emp-banner-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.emp-banner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, .15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* ══════════════════════════════════════════════
+   ADD / EDIT EMPLOYEE MODAL — form layout
+══════════════════════════════════════════════ */
+
+/* Section divider inside modal form */
+.modal-form-section {
+  margin-bottom: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-form-section-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-form-section-label i { font-size: 13px; }
+
+/* Avatar upload placeholder inside add modal */
+.avatar-upload-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--light);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.avatar-upload-wrap:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.avatar-upload-placeholder {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.avatar-upload-info .title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 2px;
+}
+.avatar-upload-info .sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════
+   EMPLOYEE DETAIL GRID (inside view modal body)
+══════════════════════════════════════════════ */
+.emp-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.emp-detail-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.emp-detail-item:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+.emp-detail-item .lbl {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 3px;
+}
+.emp-detail-item .val {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark);
+}
+/* Full-width detail item */
+.emp-detail-item.full {
+  grid-column: span 2;
+}
+
+/* ══════════════════════════════════════════════
+   STATUS INDICATORS — employment type chips
+══════════════════════════════════════════════ */
+.emp-type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+.emp-type-fulltime  { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
+.emp-type-parttime  { background: #FFFBEB; color: #D97706; border-color: #FDE68A; }
+.emp-type-contract  { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
+.emp-type-intern    { background: #F5F3FF; color: #7C3AED; border-color: #DDD6FE; }
+
+/* ══════════════════════════════════════════════
+   SKILLS / TAGS ROW
+══════════════════════════════════════════════ */
+.skill-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.skill-tag {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid #BFDBFE;
+}
+
+/* ══════════════════════════════════════════════
+   QUICK STATS STRIP (above table)
+══════════════════════════════════════════════ */
+.emp-quick-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.emp-quick-stat .icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.emp-quick-stat .body .val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.1;
+}
+.emp-quick-stat .body .lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════
+   TABLE — salary column highlight
+══════════════════════════════════════════════ */
+.salary-cell {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.salary-cell .currency {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  vertical-align: super;
+  margin-right: 1px;
+}
+
+/* ══════════════════════════════════════════════
+   FILTER ADVANCED PANEL (collapsible)
+══════════════════════════════════════════════ */
+.advanced-filters {
+  background: var(--light);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px;
+  display: none;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.advanced-filters.open { display: flex; }
+.advanced-filters .filter-group { display: flex; flex-direction: column; gap: 5px; }
+.advanced-filters .filter-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.advanced-filters .filter-group input,
+.advanced-filters .filter-group select {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 12.5px;
+  color: var(--text-main);
+  background: var(--white);
+  outline: none;
+  min-width: 140px;
+}
+.advanced-filters .filter-group input:focus,
+.advanced-filters .filter-group select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 767.98px) {
+  .emp-detail-grid { grid-template-columns: 1fr; }
+  .emp-detail-item.full { grid-column: span 1; }
+  .emp-profile-banner { padding: 18px 16px; }
+  .profile-avatar-lg  { width: 56px; height: 56px; font-size: 20px; }
+  .emp-banner-info h4 { font-size: 16px; }
+}
+
+@media (max-width: 575.98px) {
+  .advanced-filters { flex-direction: column; }
+  .advanced-filters .filter-group { width: 100%; }
+  .advanced-filters .filter-group input,
+  .advanced-filters .filter-group select { width: 100%; min-width: unset; }
+}

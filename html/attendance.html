@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance — EMS Pro</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <link rel="stylesheet" href="../css/attendance.css" />
+</head>
+<body>
+
+<!-- Toast container -->
+<div class="toast-container-ems" id="toastContainer" aria-live="polite"></div>
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app-shell">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="bi bi-buildings-fill"></i></div>
+      <div><div class="brand-name">EMS<span style="color:#60A5FA;">Pro</span></div><div class="brand-tagline">Admin Panel</div></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"   class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+      <a href="departments.html" class="nav-link" data-page="departments"><i class="bi bi-diagram-3"></i><span>Departments</span></a>
+      <a href="employees.html"   class="nav-link" data-page="employees"><i class="bi bi-people"></i><span>Employees</span></a>
+      <div class="nav-section-label">HR Management</div>
+      <a href="attendance.html"  class="nav-link" data-page="attendance"><i class="bi bi-calendar-check"></i><span>Attendance</span></a>
+      <a href="leaves.html" class="nav-link" data-page="leaves"><i class="bi bi-calendar-x"></i><span>Leave Management</span><span class="badge-pill">5</span></a>
+      <a href="payroll.html"     class="nav-link" data-page="payroll"><i class="bi bi-cash-coin"></i><span>Payroll</span></a>
+      <a href="reports.html"     class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>Reports</span></a>
+      <div class="nav-section-label">Account</div>
+      <a href="profile.html"     class="nav-link" data-page="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+      <a href="settings.html"    class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="#" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-toggle" id="sidebarToggle"><i class="bi bi-list"></i></button>
+        <div class="topbar-search"><i class="bi bi-search"></i><input type="search" id="globalSearch" placeholder="Search attendance…" /></div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown">
+          <button class="topbar-icon-btn" data-bs-toggle="dropdown" id="notifToggle"><i class="bi bi-bell"></i><span class="dot" id="notifBadgeDot"></span></button>
+          <div class="dropdown-menu p-0" style="width:300px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);">
+            <div style="padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:var(--dark);">Notifications</span><button id="markAllRead" style="background:none;border:none;font-size:11.5px;color:var(--primary);cursor:pointer;font-family:Poppins,sans-serif;">Mark all read</button></div>
+            <div style="padding:16px 18px;text-align:center;color:var(--text-muted);font-size:13px;">4 unread notifications</div>
+            <div style="padding:10px;border-top:1px solid var(--border);text-align:center;"><a href="#" style="font-size:12px;color:var(--primary);">View all</a></div>
+          </div>
+        </div>
+        <a href="settings.html" class="topbar-icon-btn"><i class="bi bi-gear"></i></a>
+        <div class="dropdown">
+          <div class="topbar-profile" data-bs-toggle="dropdown" tabindex="0">
+            <div class="avatar"><span data-user-initials></span></div>
+            <div class="profile-info d-none d-sm-block"><div class="profile-name" data-user-name></div><div class="profile-role" data-user-role></div></div>
+            <i class="bi bi-chevron-down" style="font-size:11px;color:var(--text-muted);margin-left:2px;"></i>
+          </div>
+          <div class="dropdown-menu p-0" style="width:220px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);border:1px solid var(--border);">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border);"><div style="font-size:13px;font-weight:600;color:var(--dark);" data-user-name></div><div style="font-size:11px;color:var(--text-muted);" data-user-email></div></div>
+            <div style="padding:6px 8px;">
+              <a href="profile.html"  style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-person"></i> My Profile</a>
+              <a href="settings.html" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--secondary);text-decoration:none;" onmouseover="this.style.background='var(--light)'" onmouseout="this.style.background=''"><i class="bi bi-gear"></i> Settings</a>
+            </div>
+            <div style="padding:6px 8px;border-top:1px solid var(--border);"><a href="#" id="logoutBtn2" style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:6px;font-size:12.5px;color:var(--danger);text-decoration:none;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background=''"><i class="bi bi-box-arrow-right"></i> Sign Out</a></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main class="page-content">
+
+      <!-- Print header (hidden on screen) -->
+      <div class="print-header">
+        <div>
+          <div class="ph-logo">EMS<span>Pro</span></div>
+          <div class="ph-title">Attendance Report</div>
+        </div>
+        <div class="ph-meta">
+          <div>Generated: <script>document.write(new Date().toLocaleDateString())</script></div>
+          <div>Exported by: Admin</div>
+        </div>
+      </div>
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div>
+          <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="dashboard.html">Home</a></li><li class="breadcrumb-item active">Attendance</li></ol></nav>
+          <h1 class="page-title">Attendance Management</h1>
+          <p class="page-subtitle">Track daily employee check-in, check-out and working hours</p>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <!-- View Toggle -->
+          <div class="view-toggle">
+            <button id="btnTableView" class="active"><i class="bi bi-table"></i> Table</button>
+            <button id="btnCalView"><i class="bi bi-calendar3"></i> Calendar</button>
+          </div>
+
+          <!-- ═══ PROFESSIONAL EXPORT DROPDOWN ═══ -->
+          <div class="dropdown">
+            <button class="btn-primary-ems" id="exportDropdownBtn"
+              data-bs-toggle="dropdown" data-bs-auto-close="outside"
+              aria-expanded="false" aria-label="Export options">
+              <i class="bi bi-download"></i> Export <i class="bi bi-chevron-down" style="font-size:10px;"></i>
+            </button>
+
+            <div class="dropdown-menu export-dropdown-menu p-0" aria-labelledby="exportDropdownBtn">
+
+              <!-- Header -->
+              <div class="export-dd-header">
+                <h6><i class="bi bi-download"></i> Export Attendance Data</h6>
+                <p id="exportRecordCount">Select a format to download your records</p>
+              </div>
+
+              <!-- Options -->
+              <div class="export-dd-body">
+                <button class="export-option csv" id="btnExportCSV">
+                  <div class="ex-icon"><i class="bi bi-filetype-csv"></i></div>
+                  <div class="ex-info">
+                    <span class="ex-label">CSV File</span>
+                    <span class="ex-sub">Comma-separated, works everywhere</span>
+                  </div>
+                  <i class="bi bi-chevron-right ex-arrow"></i>
+                </button>
+
+                <button class="export-option excel" id="btnExportExcel">
+                  <div class="ex-icon"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                  <div class="ex-info">
+                    <span class="ex-label">Excel File</span>
+                    <span class="ex-sub">Opens in Microsoft Excel / Google Sheets</span>
+                  </div>
+                  <i class="bi bi-chevron-right ex-arrow"></i>
+                </button>
+
+                <div class="export-dd-divider"></div>
+
+                <button class="export-option pdf" id="btnExportPDF">
+                  <div class="ex-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                  <div class="ex-info">
+                    <span class="ex-label">PDF Report</span>
+                    <span class="ex-sub">Formatted report, print-ready</span>
+                  </div>
+                  <i class="bi bi-chevron-right ex-arrow"></i>
+                </button>
+
+                <button class="export-option print" id="btnPrint">
+                  <div class="ex-icon"><i class="bi bi-printer"></i></div>
+                  <div class="ex-info">
+                    <span class="ex-label">Print</span>
+                    <span class="ex-sub">Print current view directly</span>
+                  </div>
+                  <i class="bi bi-chevron-right ex-arrow"></i>
+                </button>
+              </div>
+
+              <!-- Progress bar (shown during export) -->
+              <div class="export-progress-wrap" id="exportProgressWrap">
+                <div class="export-progress-label">
+                  <span id="exportProgressLabel">Preparing…</span>
+                  <span id="exportProgressPct">0%</span>
+                </div>
+                <div class="export-progress-bar-bg">
+                  <div class="export-progress-fill" id="exportProgressFill"></div>
+                </div>
+              </div>
+
+
+
+              <!-- Footer -->
+              <div class="export-dd-footer">
+                <i class="bi bi-shield-check"></i>
+                Exports include only currently filtered records
+              </div>
+            </div>
+          </div>
+          <!-- END EXPORT DROPDOWN -->
+
+        </div>
+      </div>
+
+      <button class="btn-primary-ems" id="btnOpenAttendanceModal">
+        <i class="bi bi-plus-circle"></i>
+        Mark Attendance
+      </button>
+
+      <!-- ══ SUMMARY STAT CARDS ══ -->
+      <div class="att-stats-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px;">
+
+        <div class="att-stat-card total">
+          <div class="att-stat-icon icon-blue"><i class="bi bi-people-fill"></i></div>
+          <div class="att-stat-body">
+            <div class="att-stat-value" id="statTotal">0</div>
+            <div class="att-stat-label">Total Employees</div>
+            <div class="att-stat-pct info"><i class="bi bi-building"></i> Today</div>
+          </div>
+        </div>
+
+        <div class="att-stat-card present">
+          <div class="att-stat-icon icon-green"><i class="bi bi-person-check-fill"></i></div>
+          <div class="att-stat-body">
+            <div class="att-stat-value" id="statPresent">0</div>
+            <div class="att-stat-label">Present</div>
+            <div class="att-stat-pct up"><i class="bi bi-arrow-up-short"></i><span id="statRate">0%</span> rate</div>
+          </div>
+        </div>
+
+        <div class="att-stat-card absent">
+          <div class="att-stat-icon icon-red"><i class="bi bi-person-x-fill"></i></div>
+          <div class="att-stat-body">
+            <div class="att-stat-value" id="statAbsent">0</div>
+            <div class="att-stat-label">Absent</div>
+            <div class="att-stat-pct down"><i class="bi bi-arrow-down-short"></i> Needs attention</div>
+          </div>
+        </div>
+
+        <div class="att-stat-card late">
+          <div class="att-stat-icon icon-orange"><i class="bi bi-clock-history"></i></div>
+          <div class="att-stat-body">
+            <div class="att-stat-value" id="statLate">0</div>
+            <div class="att-stat-label">Late Arrivals</div>
+            <div class="att-stat-pct warn"><i class="bi bi-exclamation-circle"></i> After 9:30 AM</div>
+          </div>
+        </div>
+
+        <div class="att-stat-card leave">
+          <div class="att-stat-icon icon-purple"><i class="bi bi-calendar-heart"></i></div>
+          <div class="att-stat-body">
+            <div class="att-stat-value" id="statLeave">0</div>
+            <div class="att-stat-label">On Leave</div>
+            <div class="att-stat-pct info"><i class="bi bi-info-circle"></i> Approved</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END STAT CARDS -->
+
+      <!-- ══ CHARTS ROW ══ -->
+      <div class="att-charts-row">
+
+        <!-- Weekly trend line chart -->
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <div>
+              <p class="cbt">Weekly Attendance Trend</p>
+              <p class="cbs">Present, Absent &amp; Late — this week</p>
+            </div>
+            <div class="period-tabs">
+              <button class="active">Week</button><button>Month</button>
+            </div>
+          </div>
+          <div class="chart-box-body">
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot" style="background:#10B981;"></span>Present</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span>Absent</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#F59E0B;"></span>Late</span>
+            </div>
+            <div style="height:200px;position:relative;"><canvas id="attWeekChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Donut + rate bars -->
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <div><p class="cbt">Today's Breakdown</p><p class="cbs">Attendance distribution</p></div>
+          </div>
+          <div class="chart-box-body">
+            <div class="donut-wrapper">
+              <canvas id="attDonutChart"></canvas>
+              <div class="donut-center-label">
+                <div class="big" id="donutCenterVal">90%</div>
+                <div class="small">Attendance</div>
+              </div>
+            </div>
+            <div style="margin-top:14px;">
+              <div class="att-rate-row">
+                <span class="att-rate-label">Present</span>
+                <div class="att-rate-bar-wrap"><div class="att-rate-bar" style="background:#10B981;" data-pct="90"></div></div>
+                <span class="att-rate-pct">90%</span>
+              </div>
+              <div class="att-rate-row">
+                <span class="att-rate-label">Late</span>
+                <div class="att-rate-bar-wrap"><div class="att-rate-bar" style="background:#F59E0B;" data-pct="4"></div></div>
+                <span class="att-rate-pct">4%</span>
+              </div>
+              <div class="att-rate-row">
+                <span class="att-rate-label">Absent</span>
+                <div class="att-rate-bar-wrap"><div class="att-rate-bar" style="background:#EF4444;" data-pct="6"></div></div>
+                <span class="att-rate-pct">6%</span>
+              </div>
+              <div class="att-rate-row">
+                <span class="att-rate-label">On Leave</span>
+                <div class="att-rate-bar-wrap"><div class="att-rate-bar" style="background:#8B5CF6;" data-pct="4"></div></div>
+                <span class="att-rate-pct">4%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END CHARTS -->
+
+      <!-- ══ MAIN TABLE CARD ══ -->
+      <div class="card">
+
+        <!-- Toolbar -->
+        <div class="card-header">
+          <div class="att-toolbar">
+            <div class="search-box"><i class="bi bi-search"></i><input type="search" id="attSearch" placeholder="Search by name, ID, department…" /></div>
+            <input type="date" id="attDateFilter" title="Filter by date" />
+            <select id="attDeptFilter">
+              <option value="">All Departments</option>
+              <option>Engineering</option><option>Marketing</option><option>Sales</option>
+              <option>Human Resources</option><option>Finance</option><option>Operations</option>
+              <option>Customer Support</option><option>Product</option><option>Design</option>
+            </select>
+            <select id="attStatusFilter">
+              <option value="">All Status</option>
+              <option value="Present">Present</option>
+              <option value="Absent">Absent</option>
+              <option value="Late">Late</option>
+              <option value="On Leave">On Leave</option>
+            </select>
+            <select id="attSortSelect">
+              <option value="date-desc">Date (Newest)</option>
+              <option value="date-asc">Date (Oldest)</option>
+              <option value="name-asc">Name A→Z</option>
+              <option value="name-desc">Name Z→A</option>
+              <option value="hrs-desc">Hours (High→Low)</option>
+            </select>
+            <button class="btn-outline-ems" id="btnResetFilters"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+          </div>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="table-stats-bar">
+          <div class="stats-bar-item"><i class="bi bi-table" style="color:var(--primary);"></i><strong id="attStatShowing">0</strong><span>records</span></div>
+          <div class="stats-bar-item"><i class="bi bi-check-circle" style="color:var(--success);"></i><strong id="attStatPresent">0</strong><span>present</span></div>
+          <div class="stats-bar-item"><i class="bi bi-x-circle" style="color:var(--danger);"></i><strong id="attStatAbsent">0</strong><span>absent</span></div>
+          <div class="stats-bar-item"><i class="bi bi-clock-history" style="color:var(--warning);"></i><strong id="attStatLate">0</strong><span>late</span></div>
+        </div>
+
+        <!-- ══ TABLE VIEW ══ -->
+        <div id="tableListView" class="table-list-view">
+          <div class="table-wrapper">
+            <table class="ems-table" id="attTable" aria-label="Attendance records">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Working Hours</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="attTbody">
+                <!-- Skeleton rows -->
+                <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+                <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+                <tr class="skeleton-row"><td><div class="skel skel-lg"></div></td><td><div class="skel skel-md"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-sm"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td><td><div class="skel skel-xs"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Table footer -->
+          <div class="tbl-footer">
+            <div class="tbl-footer-info">Showing <strong id="attPageInfo">1–10</strong> of <strong id="attTotalInfo">0</strong> records</div>
+            <div class="pagination-ems" id="attPagination"></div>
+          </div>
+        </div>
+
+        <!-- ══ CALENDAR VIEW ══ -->
+        <div class="cal-grid-view" id="calGridView">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:13px;font-weight:600;color:var(--dark);" id="calMonthLabel">June 2025</span>
+            <span style="font-size:11.5px;color:var(--text-muted);">Showing attendance for: James Carter</span>
+          </div>
+          <div style="padding:16px 20px 20px;">
+            <div class="cal-att-header">
+              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+            <div class="cal-att-grid" id="calAttGrid"></div>
+            <div class="cal-legend">
+              <div class="cal-legend-item"><span class="cal-legend-dot" style="background:#ECFDF5;border:1px solid #A7F3D0;"></span>Present</div>
+              <div class="cal-legend-item"><span class="cal-legend-dot" style="background:#FEF2F2;border:1px solid #FECACA;"></span>Absent</div>
+              <div class="cal-legend-item"><span class="cal-legend-dot" style="background:#FFFBEB;border:1px solid #FDE68A;"></span>Late</div>
+              <div class="cal-legend-item"><span class="cal-legend-dot" style="background:#F5F3FF;border:1px solid #DDD6FE;"></span>On Leave</div>
+              <div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--light);border:1px solid var(--border);"></span>Weekend</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- END TABLE CARD -->
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══ ATTENDANCE DETAIL MODAL ═══ -->
+<div class="modal fade modal-ems" id="attDetailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="overflow:hidden;">
+
+      <!-- Banner -->
+      <div class="att-detail-banner">
+        <div class="emp-av" id="detailEmpAvatar" style="background:rgba(255,255,255,.15);color:#fff;">JC</div>
+        <div class="banner-info">
+          <h5 id="detailEmpName">—</h5>
+          <p id="detailEmpSub">—</p>
+        </div>
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" style="padding:20px 24px;">
+
+        <!-- Status -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <span style="font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;">Attendance Status</span>
+          <span id="detailStatus"></span>
+        </div>
+
+        <!-- Time cards -->
+        <div class="att-time-cards">
+          <div class="att-time-card">
+            <div class="tc-icon" style="color:#10B981;">🟢</div>
+            <div class="tc-val" id="detailCheckIn">—</div>
+            <div class="tc-label">Check In</div>
+          </div>
+          <div class="att-time-card">
+            <div class="tc-icon" style="color:#EF4444;">🔴</div>
+            <div class="tc-val" id="detailCheckOut">—</div>
+            <div class="tc-label">Check Out</div>
+          </div>
+          <div class="att-time-card">
+            <div class="tc-icon" style="color:#2563EB;">⏱️</div>
+            <div class="tc-val" id="detailHours">—</div>
+            <div class="tc-label">Working Hours</div>
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div style="background:var(--light);border-radius:var(--radius-md);padding:12px 14px;margin-top:4px;">
+          <div style="font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:5px;">Notes</div>
+          <div style="font-size:13px;color:var(--secondary);" id="detailNote">—</div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-outline-ems" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+
+
+
+<script>
+  /* Update export record count label whenever dropdown opens */
+  document.getElementById('exportDropdownBtn')?.addEventListener('click', () => {
+    const count = document.getElementById('attTotalInfo')?.textContent || '0';
+    document.getElementById('exportRecordCount').textContent = `${count} records ready to export`;
+  });
+</script>
+
+<div class="modal fade" id="attendanceModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Mark Attendance
+        </h5>
+
+        <button class="btn-close"
+                data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+
+            <label>Employee</label>
+
+            <select class="form-select"
+                    id="att_employee"
+                    required>
+            </select>
+
+          </div>
+
+          <div class="col-md-6">
+
+            <label>Date</label>
+
+            <input type="date"
+                   class="form-control"
+                   id="att_date"
+                   required>
+
+          </div>
+
+          <div class="col-md-6">
+
+            <label>Check In</label>
+
+            <input type="time"
+                   class="form-control"
+                   id="att_checkin">
+
+          </div>
+
+          <div class="col-md-6">
+
+            <label>Check Out</label>
+
+            <input type="time"
+                   class="form-control"
+                   id="att_checkout">
+
+          </div>
+
+          <div class="col-md-6">
+
+            <label>Status</label>
+
+            <select class="form-select"
+                    id="att_status">
+
+              <option>Present</option>
+              <option>Absent</option>
+              <option>Late</option>
+              <option>On Leave</option>
+
+            </select>
+
+          </div>
+
+          <div class="col-12">
+
+            <label>Remarks</label>
+
+            <textarea class="form-control"
+                      id="att_remarks"></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button class="btn btn-primary"
+                id="btnSaveAttendance">
+
+          Save Attendance
+
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../js/attendance.js"></script>
+<script src="../js/common.js"></script>
+</body>
+</html>
