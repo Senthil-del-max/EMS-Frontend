@@ -2,10 +2,8 @@
  * login.js — Login page logic
  * Handles form validation, auth simulation, remember-me, and forgot-password flow.
  */
-alert("LOGIN JS LOADED");
 'use strict';
-console.log("LOGIN JS LOADED");
-const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
+
 
 /* ── Demo credentials ── */
 //const DEMO_USERS = [
@@ -106,54 +104,40 @@ function hideAlert() {
 
 /* ── Login form submit ── */
 loginForm.addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
     hideAlert();
 
-    const emailOk = validateEmail();
-    const passOk = validatePassword();
+    if (!validateEmail() || !validatePassword()) {
+        return;
+    }
 
-    if (!emailOk || !passOk) return;
-
-    btnLogin.classList.add("loading");
     btnLogin.disabled = true;
+    btnLogin.innerHTML = "Signing In...";
 
     try {
 
-        const response = await fetch("https://employee-management-system-jt3h.onrender.com/api/auth/login", {
-
+        const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
-
                 email: emailInput.value.trim(),
-
                 password: passwordInput.value
-
             })
-
         });
 
         const data = await response.json();
-        btnLogin.classList.remove("loading");
+
+        console.log("Status:", response.status);
+        console.log("Response:", data);
+
         btnLogin.disabled = false;
+        btnLogin.innerHTML = '<span class="btn-text"><i class="bi bi-box-arrow-in-right"></i> Sign In</span>';
 
         if (!response.ok) {
-
             showAlert("error", data.message || "Login Failed");
-
-            return;
-
-        }
-
-        // Validate response has required fields
-        if (!data.token) {
-            showAlert("error", "Invalid response: Missing authentication token");
             return;
         }
 
@@ -161,36 +145,26 @@ loginForm.addEventListener("submit", async (e) => {
         localStorage.setItem("user", JSON.stringify(data));
 
         if (rememberMe.checked) {
-
-            localStorage.setItem(
-                "ems_remembered_email",
-                emailInput.value.trim()
-            );
-
+            localStorage.setItem("ems_remembered_email", emailInput.value.trim());
         } else {
-
             localStorage.removeItem("ems_remembered_email");
-
         }
-
-        sessionStorage.setItem("ems_logged_in", "true");
 
         showAlert("success", "Login Successful");
 
-        // Redirect to dashboard - using assign for better reliability
         setTimeout(() => {
-            window.location.assign("dashboard.html");
-        }, 500);
+            window.location.href = "dashboard.html";
+        }, 1000);
 
-    } catch (error) {
-        console.error("Login Error:", error);
+    } catch (err) {
 
-        btnLogin.classList.remove("loading");
+        console.error(err);
+
         btnLogin.disabled = false;
+        btnLogin.innerHTML = '<span class="btn-text"><i class="bi bi-box-arrow-in-right"></i> Sign In</span>';
 
-        showAlert("error", error.message || "An error occurred during login");
+        showAlert("error", "Server connection failed.");
     }
-
 });
 
 /* ── Forgot password toggle ── */
