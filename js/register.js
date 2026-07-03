@@ -5,6 +5,7 @@
 
 (function () {
   'use strict';
+  const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
 
   /* ── DOM refs ─────────────────────────────── */
   const form            = document.getElementById('registerForm');

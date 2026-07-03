@@ -4,6 +4,7 @@
  */
 
 'use strict';
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
 
 /* ── Demo credentials ── */
 //const DEMO_USERS = [
