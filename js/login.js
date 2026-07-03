@@ -2,7 +2,7 @@
  * login.js — Login page logic
  * Handles form validation, auth simulation, remember-me, and forgot-password flow.
  */
-
+alert("LOGIN JS LOADED");
 'use strict';
 console.log("LOGIN JS LOADED");
 const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
