@@ -21,7 +21,7 @@ function loadUserProfile() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
 

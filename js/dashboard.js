@@ -46,7 +46,7 @@ if (adminSection && employeeSection && user) {
 
 
       if (!user) {
-          window.location.href = "login.html";
+          window.location.href = "index.html";
           return;
       }
 
@@ -521,7 +521,7 @@ document.getElementById("logoutBtn")?.addEventListener("click", function (e) {
         localStorage.removeItem("user");
         sessionStorage.clear();
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 
 });

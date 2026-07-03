@@ -9,7 +9,7 @@ function logout(e) {
         localStorage.removeItem("user");
         sessionStorage.clear();
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     }
 
 }
@@ -33,7 +33,7 @@ function applyRolePermissions() {
     const user = getCurrentUser();
 
     if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
         return;
     }
 
