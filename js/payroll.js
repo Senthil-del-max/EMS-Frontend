@@ -142,8 +142,8 @@ if (user.role === "EMPLOYEE") {
 /* ════════════════════════════════════════
    DUMMY DATA
 ════════════════════════════════════════ */
-const PAYROLL_API = "http://localhost:8080/api/payroll";
-const EMPLOYEE_API = "http://localhost:8080/api/employees";
+const PAYROLL_API = "https://employee-management-system-jt3h.onrender.com/api/payroll";
+const EMPLOYEE_API = "https://employee-management-system-jt3h.onrender.com/api/employees";
 
 let PAYROLL_DATA = [];
 let EMPLOYEES = [];

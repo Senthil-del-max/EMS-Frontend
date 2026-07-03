@@ -5,6 +5,8 @@
  */
 'use strict';
 
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -39,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-const ATTENDANCE_API = "http://localhost:8080/api/attendance";
-const EMPLOYEE_API = "http://localhost:8080/api/employees";
+const ATTENDANCE_API = `${API_BASE_URL}/api/attendance`;
+const EMPLOYEE_API = `${API_BASE_URL}/api/employees`;
 
 let ALL_RECORDS = [];
 let EMPLOYEES_REF = [];

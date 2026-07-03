@@ -21,7 +21,7 @@ async function loadTopRightProfile() {
         const currentUser = JSON.parse(localStorage.getItem("user"));
 
         const response = await fetch(
-            "http://localhost:8080/api/profile/" + currentUser.email,
+            "https://employee-management-system-jt3h.onrender.com/api/profile/" + currentUser.email,
             {
                 headers: {
                     Authorization: "Bearer " + token
@@ -100,7 +100,7 @@ async function loadProfile() {
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
     const response = await fetch(
-        "http://localhost:8080/api/profile/" + currentUser.email,
+        "https://employee-management-system-jt3h.onrender.com/api/profile/" + currentUser.email,
         {
             headers: {
                 Authorization: "Bearer " + token

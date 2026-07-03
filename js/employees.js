@@ -7,8 +7,8 @@
 const user = JSON.parse(localStorage.getItem("user"));
 
 
-const EMPLOYEE_API = "http://localhost:8080/api/employees";
-const DEPARTMENT_API = "http://localhost:8080/api/departments";
+const EMPLOYEE_API = "https://employee-management-system-jt3h.onrender.com/api/employees";
+const DEPARTMENT_API = "https://employee-management-system-jt3h.onrender.com/api/departments";
 
 let employees = [];
 let departments = [];

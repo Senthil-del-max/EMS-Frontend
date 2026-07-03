@@ -9,7 +9,7 @@ async function loadEmployeeDashboard() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            `http://localhost:8080/api/dashboard/employee?email=${user.email}`,
+            `https://employee-management-system-jt3h.onrender.com/api/dashboard/employee?email=${user.email}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

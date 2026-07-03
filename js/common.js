@@ -105,3 +105,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";

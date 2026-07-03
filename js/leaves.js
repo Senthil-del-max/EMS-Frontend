@@ -7,6 +7,7 @@
  */
 
 'use strict';
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -74,8 +75,8 @@ const AVATAR_COLORS = [
 ];
 function aC(idx) { return AVATAR_COLORS[idx % AVATAR_COLORS.length]; }
 
-const LEAVE_API = "http://localhost:8080/api/leaves";
-const EMPLOYEE_API = "http://localhost:8080/api/employees";
+const LEAVE_API = `${API_BASE_URL}/api/leaves`;
+const EMPLOYEE_API = `${API_BASE_URL}/api/employees`;
 
 let leaveRequests = [];
 let EMPLOYEES_REF = [];

@@ -1,6 +1,6 @@
 "use strict";
 
-const EMPLOYEE_API = "http://localhost:8080/api/employees";
+const EMPLOYEE_API = "https://employee-management-system-jt3h.onrender.com/api/employees";
 
 async function getEmployees() {
 

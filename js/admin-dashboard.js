@@ -1,5 +1,5 @@
 "use strict";
-
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
 const user = JSON.parse(localStorage.getItem("user"));
 
 function loadUserProfile() {
@@ -61,8 +61,7 @@ async function loadDashboardStats() {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch(
-            "http://localhost:8080/api/dashboard/stats",
+        const response = await fetch(`${API_BASE_URL}/api/dashboard/stats`,
             {
                 headers: {
                     Authorization: "Bearer " + token
@@ -95,14 +94,11 @@ async function loadRecentEmployees() {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch(
-            "http://localhost:8080/api/employees/recent",
-            {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
+        const response = await fetch(`${API_BASE_URL}/api/employees/recent`, {
+            headers: {
+                Authorization: "Bearer " + token
             }
-        );
+        });
 
         if (!response.ok) {
             throw new Error("Failed to load recent employees");
@@ -176,14 +172,11 @@ async function loadDepartmentChart() {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch(
-            "http://localhost:8080/api/dashboard/department-summary",
-            {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
+        const response = await fetch(`${API_BASE_URL}/api/dashboard/department-summary`, {
+            headers: {
+                Authorization: "Bearer " + token
             }
-        );
+        });
 
         const departments = await response.json();
 
@@ -283,7 +276,7 @@ async function loadAttendanceChart() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:8080/api/dashboard/attendance-summary",
+            `${API_BASE_URL}/api/dashboard/attendance-summary`,
             {
                 headers: {
                     Authorization: "Bearer " + token
@@ -376,7 +369,7 @@ async function loadHeadcountChart() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:8080/api/dashboard/headcount",
+        `${API_BASE_URL}/api/dashboard/headcount`,
         {
             headers: {
                 Authorization: "Bearer " + token
@@ -452,7 +445,7 @@ async function loadRecentActivities() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:8080/api/dashboard/activities",
+            `${API_BASE_URL}/api/dashboard/activities`,
             {
                 headers: {
                     Authorization: "Bearer " + token
@@ -502,7 +495,7 @@ async function loadNotifications() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:8080/api/dashboard/notifications",
+            `${API_BASE_URL}/api/dashboard/notifications`,
             {
                 headers: {
                     Authorization: "Bearer " + token
@@ -569,7 +562,7 @@ async function loadUpcomingEvents() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:8080/api/dashboard/events",
+        `${API_BASE_URL}/api/dashboard/events`,
         {
             headers: {
                 Authorization: "Bearer " + token
@@ -609,7 +602,7 @@ async function loadCalendarEvents() {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-            "http://localhost:8080/api/dashboard/events",
+            `${API_BASE_URL}/api/dashboard/events`,
             {
                 headers: {
                     Authorization: "Bearer " + token

@@ -1,5 +1,7 @@
 "use strict";
 
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
+
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (user.role !== "ADMIN") {
@@ -10,7 +12,7 @@ if (user.role !== "ADMIN") {
 
 }
 
-const API_URL = "http://localhost:8080/api/departments";
+const API_URL = `${API_BASE_URL}/api/departments`;
 
 let departments = [];
 let filteredDepartments = [];

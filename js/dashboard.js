@@ -5,6 +5,7 @@
  */
 
 'use strict';
+const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
 const user = JSON.parse(localStorage.getItem("user"));
 
 
