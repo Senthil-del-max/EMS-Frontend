@@ -139,7 +139,8 @@ loginForm.addEventListener("submit", async (e) => {
         });
 
         const data = await response.json();
-
+        console.log("Status:", response.status);
+        console.log("Response:", data);
         btnLogin.classList.remove("loading");
         btnLogin.disabled = false;
 
@@ -178,12 +179,12 @@ loginForm.addEventListener("submit", async (e) => {
         }, 1000);
 
     } catch (error) {
+        console.error("Login Error:", error);
 
         btnLogin.classList.remove("loading");
         btnLogin.disabled = false;
 
-        showAlert("error", "Cannot connect to the server.");
-
+        showAlert("error", error.message);
     }
 
 });
