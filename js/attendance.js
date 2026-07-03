@@ -534,7 +534,6 @@ document.getElementById('btnExportCSV').addEventListener('click', async () => {
   }
 
   exportCSV(buildExportData(), `attendance_${todayStr()}.csv`);
-  console.log("CSV exported successfully");
   bootstrap.Dropdown.getInstance(document.getElementById('exportDropdownBtn'))?.hide();
 });
 
@@ -643,7 +642,15 @@ async function loadEmployees() {
 
     try {
 
-        const response = await fetch(EMPLOYEE_API);
+        const response = await fetch(EMPLOYEE_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load employees");
+        }
 
         EMPLOYEES_REF = await response.json();
 
@@ -663,7 +670,15 @@ async function loadAttendance() {
 
     try {
 
-        const response = await fetch(ATTENDANCE_API);
+        const response = await fetch(ATTENDANCE_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load attendance records");
+        }
 
         const data = await response.json();
 
@@ -771,8 +786,6 @@ async function saveAttendance() {
         remarks: document.getElementById("att_remarks").value
 
     };
-
-    console.log(attendance);
 
     try {
 

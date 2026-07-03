@@ -104,7 +104,15 @@ async function loadLeaves() {
 
     try {
 
-        const response = await fetch(LEAVE_API);
+        const response = await fetch(LEAVE_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load leave requests");
+        }
 
         const data = await response.json();
 
@@ -141,9 +149,6 @@ async function loadLeaves() {
         updateSummaryCards();
 
         applyFilters();
-
-        updateCharts();
-        console.log(leaveRequests);
     }
 
     catch(e){
@@ -260,10 +265,8 @@ function applyFilters() {
        r.dept.toLowerCase().includes(q);
     const mType = !type || r.type === type;
     const mDept = !dept || r.dept === dept;
-    return mTab && mQ && mType && mDept;
+   return mTab && mQ && mType && mDept;
   });
-     console.log(leaveRequests);
-     console.log(filtered);
   if (sort === 'date-desc') filtered.sort((a, b) => b.appliedOn.localeCompare(a.appliedOn));
   if (sort === 'date-asc')  filtered.sort((a, b) => a.appliedOn.localeCompare(b.appliedOn));
   if (sort === 'days-desc') filtered.sort((a, b) => b.days - a.days);
@@ -920,7 +923,15 @@ async function loadEmployees() {
 
     try {
 
-        const response = await fetch(EMPLOYEE_API);
+        const response = await fetch(EMPLOYEE_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load employees");
+        }
 
         EMPLOYEES_REF = await response.json();
 

@@ -65,6 +65,10 @@ async function loadDepartments(){
 
         });
 
+        if (!response.ok) {
+            throw new Error("Failed to load departments");
+        }
+
         departments = await response.json();
 
         fillDepartmentDropdown();
@@ -122,6 +126,10 @@ async function loadEmployees(){
             }
 
         });
+
+        if (!response.ok) {
+            throw new Error("Failed to load employees");
+        }
 
         employees=await response.json();
 
@@ -338,8 +346,6 @@ function viewEmployee(id){
 
 async function saveEmployee() {
 
-    console.log("Save Employee clicked");
-
     const employee = {
 
         employeeId: "EMP" + Date.now(),
@@ -370,8 +376,6 @@ async function saveEmployee() {
             document.getElementById("ae_status").value === "Active"
 
     };
-
-    console.log("Department ID:", document.getElementById("ae_dept").value);
 
     try {
 

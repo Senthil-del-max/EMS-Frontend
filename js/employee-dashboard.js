@@ -40,8 +40,6 @@ async function loadEmployeeDashboard() {
         document.getElementById("empDesignation").textContent =
             data.designation;
 
-
-
         });
 
     } catch (err) {

@@ -23,7 +23,6 @@ function loadLoggedInUser() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        console.log("No user found in localStorage");
         return;
     }
 
@@ -55,7 +54,11 @@ async function loadDepartments() {
 
     try {
 
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
 
         if (!response.ok) {
             throw new Error("Failed to load departments");

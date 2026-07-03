@@ -140,9 +140,6 @@ loginForm.addEventListener("submit", async (e) => {
 
         const data = await response.json();
 
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data));
-
         btnLogin.classList.remove("loading");
         btnLogin.disabled = false;
 
@@ -153,6 +150,9 @@ loginForm.addEventListener("submit", async (e) => {
             return;
 
         }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data));
 
         if (rememberMe.checked) {
 
@@ -166,10 +166,6 @@ loginForm.addEventListener("submit", async (e) => {
             localStorage.removeItem("ems_remembered_email");
 
         }
-
-        localStorage.setItem("token", data.token);
-
-        localStorage.setItem("user", JSON.stringify(data));
 
         sessionStorage.setItem("ems_logged_in", "true");
 

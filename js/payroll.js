@@ -56,7 +56,15 @@ async function loadEmployees() {
 
     try {
 
-        const response = await fetch(EMPLOYEE_API);
+        const response = await fetch(EMPLOYEE_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load employees");
+        }
 
         EMPLOYEES = await response.json();
 
@@ -72,7 +80,15 @@ async function loadPayroll() {
 
     try {
 
-        const response = await fetch(PAYROLL_API);
+        const response = await fetch(PAYROLL_API, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to load payroll data");
+        }
 
         const data = await response.json();
 
@@ -512,7 +528,6 @@ window.downloadPayslipPDF = id => {
   win.document.write(buildPayslipHTML(r));
   win.document.close();
   setTimeout(() => win.print(), 700);
-  console.log(`Payslip for ${r.name} opened.`);
 };
 
 document.getElementById('btnDownloadPayslip').addEventListener('click', () => {
