@@ -675,10 +675,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Error loading user profile:', e);
     }
 
-    const user = getCurrentUser();
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        console.warn('No user data found, remaining on dashboard with limited functionality');
+        window.location.href = "index.html";
         return;
     }
 
