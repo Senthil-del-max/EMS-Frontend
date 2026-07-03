@@ -1,6 +1,5 @@
 "use strict";
 const API_BASE_URL = "https://employee-management-system-jt3h.onrender.com";
-const user = JSON.parse(localStorage.getItem("user"));
 
 function loadUserProfile() {
 
@@ -11,28 +10,37 @@ function loadUserProfile() {
         return;
     }
 
+    // Safe property access with fallbacks
+    const fullName = user.fullName || user.name || 'User';
+    const role = user.role || 'Unknown';
+    const email = user.email || 'N/A';
+
     document.querySelectorAll("[data-user-name]").forEach(el => {
-        el.textContent = user.fullName;
+        el.textContent = fullName;
     });
 
     document.querySelectorAll("[data-user-role]").forEach(el => {
-        el.textContent = user.role;
+        el.textContent = role;
     });
 
     document.querySelectorAll("[data-user-email]").forEach(el => {
-        el.textContent = user.email;
+        el.textContent = email;
     });
 
-    const initials = user.fullName
-        .split(" ")
-        .map(w => w[0])
-        .join("")
-        .substring(0,2)
-        .toUpperCase();
+    try {
+        const initials = fullName
+            .split(" ")
+            .map(w => w[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
 
-    document.querySelectorAll("[data-user-initials]").forEach(el => {
-        el.textContent = initials;
-    });
+        document.querySelectorAll("[data-user-initials]").forEach(el => {
+            el.textContent = initials;
+        });
+    } catch (e) {
+        console.error('Error setting initials:', e);
+    }
 
 }
 
@@ -661,20 +669,31 @@ async function loadCalendarEvents() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    loadUserProfile();
+    try {
+        loadUserProfile();
+    } catch (e) {
+        console.error('Error loading user profile:', e);
+    }
 
     const user = getCurrentUser();
 
-    if (!user) return;
+    if (!user) {
+        console.warn('No user data found, remaining on dashboard with limited functionality');
+        return;
+    }
 
-    loadDashboardStats();
-    loadRecentEmployees();
-    loadDepartmentChart();
-    loadHeadcountChart();
-    loadAttendanceChart();
-    loadRecentActivities();
-    loadNotifications();
-    loadUpcomingEvents();
-    loadCalendarEvents();
+    try {
+        loadDashboardStats();
+        loadRecentEmployees();
+        loadDepartmentChart();
+        loadHeadcountChart();
+        loadAttendanceChart();
+        loadRecentActivities();
+        loadNotifications();
+        loadUpcomingEvents();
+        loadCalendarEvents();
+    } catch (e) {
+        console.error('Error loading dashboard data:', e);
+    }
 
 });

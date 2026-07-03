@@ -139,8 +139,6 @@ loginForm.addEventListener("submit", async (e) => {
         });
 
         const data = await response.json();
-        console.log("Status:", response.status);
-        console.log("Response:", data);
         btnLogin.classList.remove("loading");
         btnLogin.disabled = false;
 
@@ -150,6 +148,12 @@ loginForm.addEventListener("submit", async (e) => {
 
             return;
 
+        }
+
+        // Validate response has required fields
+        if (!data.token) {
+            showAlert("error", "Invalid response: Missing authentication token");
+            return;
         }
 
         localStorage.setItem("token", data.token);
@@ -172,11 +176,10 @@ loginForm.addEventListener("submit", async (e) => {
 
         showAlert("success", "Login Successful");
 
+        // Redirect to dashboard - using assign for better reliability
         setTimeout(() => {
-
-            window.location.href = "dashboard.html";
-
-        }, 1000);
+            window.location.assign("dashboard.html");
+        }, 500);
 
     } catch (error) {
         console.error("Login Error:", error);
@@ -184,7 +187,7 @@ loginForm.addEventListener("submit", async (e) => {
         btnLogin.classList.remove("loading");
         btnLogin.disabled = false;
 
-        showAlert("error", error.message);
+        showAlert("error", error.message || "An error occurred during login");
     }
 
 });

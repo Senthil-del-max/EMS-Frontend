@@ -25,7 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
+    try {
+        const user = localStorage.getItem("user");
+        return user ? JSON.parse(user) : null;
+    } catch (e) {
+        console.error('Error parsing user data:', e);
+        return null;
+    }
 }
 
 function applyRolePermissions() {
@@ -74,14 +80,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function requireAdmin() {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    try {
+        const userStr = localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
 
-    if (!user || user.role !== "ADMIN") {
+        if (!user || (user.role !== "ADMIN" && user.role !== "Super Admin")) {
 
-        alert("Access Denied");
+            alert("Access Denied");
 
-        window.location.href = "dashboard.html";
+            window.location.href = "dashboard.html";
 
+        }
+    } catch (e) {
+        console.error('Error checking admin access:', e);
+        window.location.href = "index.html";
     }
 
 }
