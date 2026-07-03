@@ -227,7 +227,6 @@ async function saveDepartment() {
 document.addEventListener("DOMContentLoaded", () => {
 
     loadLoggedInUser();
-
     loadDepartments();
 
     document
@@ -239,20 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .addEventListener("click", saveDepartment);
 
     document
-        .getElementById("btnOpenAdd")
-        .addEventListener("click", () => {
-
-            const modal = new bootstrap.Modal(
-                document.getElementById("addDeptModal")
-            );
-
-            modal.show();
-
-    document
         .getElementById("btnSaveEdit")
         .addEventListener("click", updateDepartment);
-
-        });
 
     document
         .getElementById("btnOpenAdd")
@@ -281,15 +268,7 @@ function updateSummaryCards() {
 
 }
 
-function editDepartment(id) {
-    alert("Edit Department: " + id);
-}
 
-function deleteDepartment(id) {
-    if (confirm("Delete Department?")) {
-        alert("Delete API will be implemented next.");
-    }
-}
 
 async function editDepartment(id) {
 

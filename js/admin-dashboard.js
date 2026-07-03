@@ -5,42 +5,25 @@ function loadUserProfile() {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
+    console.log("User from localStorage:", user);
+
     if (!user) {
         window.location.href = "index.html";
         return;
     }
 
-    // Safe property access with fallbacks
-    const fullName = user.fullName || user.name || 'User';
-    const role = user.role || 'Unknown';
-    const email = user.email || 'N/A';
+    const fullName = user.fullName || user.name || "User";
 
-    document.querySelectorAll("[data-user-name]").forEach(el => {
+    console.log("Full Name:", fullName);
+
+    const elements = document.querySelectorAll("[data-user-name]");
+
+    console.log("Elements found:", elements.length);
+
+    elements.forEach((el) => {
+        console.log("Updating:", el);
         el.textContent = fullName;
     });
-
-    document.querySelectorAll("[data-user-role]").forEach(el => {
-        el.textContent = role;
-    });
-
-    document.querySelectorAll("[data-user-email]").forEach(el => {
-        el.textContent = email;
-    });
-
-    try {
-        const initials = fullName
-            .split(" ")
-            .map(w => w[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
-
-        document.querySelectorAll("[data-user-initials]").forEach(el => {
-            el.textContent = initials;
-        });
-    } catch (e) {
-        console.error('Error setting initials:', e);
-    }
 
 }
 
